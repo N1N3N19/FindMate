@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const mysql = require('mysql');
+const fetchDataFromDatabase = require('../models/userModel')
 
 const connection = mysql.createConnection(
     {
@@ -28,7 +29,11 @@ const registUser = asyncHandler(async(req,res) => {
         res.status(400);
         throw new Error("There are some informations you forgot to fill");
     }
-    
+    const userAvailable = await fetchDataFromDatabase.findOne({email});
+    if(userAvailable){
+        res.status(400);
+        throw new Error("There are some informations you forgot to fill");
+    }
     try{
             connection.query(
                 "INSERT INTO user_profile(Name, Gender, email, About_user, Profile_pic, DOB, Phone) VALUES(?, ?, ?, ?, ?, ?, ?)",

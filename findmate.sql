@@ -96,12 +96,12 @@ CREATE TABLE `user_profile` (
 --
 
 INSERT INTO `user_profile` (`user_ID`, `Name`, `Gender`, `email`,`password`, `About_user`, `Profile_pic`, `DOB`, `YES_UID`) VALUES
-(1, 'Nine', 'Male', 'pannatjaat@gmail.com',"123445", 'I love Pam very much', 0x617364313234746c6468646773666c64617364, '25-11-2002', NULL),
-(2, 'Alice', 'Female', 'alice@gmail.com',"212421", 'I enjoy hiking and reading', 0x617364313234746c6468646773666c64617364, '1995-08-10',  NULL),
+(1, 'Nine', 'Male', 'pannatjaat@gmail.com',"123445", 'I love Pam very much', 0x617364313234746c6468646773666c64617364, '25-11-2002',  NULL),
+(2, 'Alice', 'Female', 'alice@gmail.com',"212421", 'I enjoy hiking and reading', 0x617364313234746c6468646773666c64617364, '1995-08-10', NULL),
 (3, 'Bob', 'Male', 'bob@example.com',"123456", 'Tech enthusiast and coffee lover', 0x626f6270726f66696c655f706963, '1988-03-22',  NULL),
-(4, 'Eva', 'Female', 'eva@example.com',"1255423", 'Passionate about art and travel', 0x657661313233746c6468646773666c64617364, '1990-05-15', NULL),
+(4, 'Eva', 'Female', 'eva@example.com',"1255423", 'Passionate about art and travel', 0x657661313233746c6468646773666c64617364, '1990-05-15',  NULL),
 (5, 'Charlie', 'Non-Binary', 'charlie@gmail.com',"23432423", 'Tech geek and cat lover', 0x636861726c69655f706963, '1985-12-01',  NULL),
-(6, 'Olivia', 'Female', 'olivia@example.com','124454354', 'Fitness enthusiast and foodie', 0x6f6c697669615f706963, '1993-09-28', NULL);
+(6, 'Olivia', 'Female', 'olivia@example.com','124454354', 'Fitness enthusiast and foodie', 0x6f6c697669615f706963, '1993-09-28',  NULL);
 
 --
 -- Indexes for dumped tables
