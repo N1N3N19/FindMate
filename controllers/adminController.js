@@ -23,13 +23,13 @@ connection.connect((err)=>{
 //@route GET /api/user
 //@access public
 const getallUsers =  asyncHandler(async(req,res) => {
-    res.status(200).json({message: "Get all info"});
-    try{ connection.query("SELECT * FROM users", (err, results, fields) => {
+  
+    try{ connection.query("SELECT * FROM user_profile", (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
         }
-        req.status(200).json(results);
+        res.status(200).json(results);
     })
     } catch(err){
         console.log(err);
@@ -68,7 +68,7 @@ const createUser = asyncHandler(async(req,res) => {
 
 
 //@desc get a user
-//@route GET /api/user/:id
+//@route GET /api/user/read/single/:email
 //@access public
 const getUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
@@ -87,20 +87,19 @@ const getUser = asyncHandler(async(req,res) => {
 });
 
 
-
 //@desc update a user
 //@route PUT /api/user/:id
 //@access public
 const updateUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
-    const newAbout_user = req.body.new
+    const newAbout_user = req.body.newAbout_user
     try{ 
-        connection.query("SELECT * FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        connection.query("UPDATE user_profile SET About_user = ? WHERE email = ?",[newAbout_user, email], (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
         }
-        res.status(200).json(results);
+        res.status(200).json("message: about user has updated successfully");
     })
     } catch(err){
         console.log(err);
@@ -112,7 +111,23 @@ const updateUser = asyncHandler(async(req,res) => {
 //@route DELETE /api/user/:id
 //@access public
 const deleteUser = asyncHandler(async(req,res) => {
-    res.status(200).json({message: 'Delete user for ' + req.params.id});
+    const email = req.params.email;
+    
+    try{ 
+        connection.query("DELETE FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        if (err){
+            console.log(err);
+            return res.status(400).send();
+        }
+        if (results.affectedRows == 0){
+            return res.status(404).json("No user that has the email");
+        }
+        return res.status(2000).json("User has been deleted successfully");
+    })
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
 });
 
 module.exports = {

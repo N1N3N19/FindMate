@@ -84,10 +84,10 @@ CREATE TABLE `user_profile` (
   `Name` varchar(30) DEFAULT NULL,
   `Gender` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
+  `password` varchar(30) DEFAULT NULL,
   `About_user` text,
   `Profile_pic` blob,
   `DOB` varchar(255) DEFAULT NULL,
-  `Phone` varchar(10) DEFAULT NULL,
   `YES_UID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -95,13 +95,13 @@ CREATE TABLE `user_profile` (
 -- Dumping data for table `user_profile`
 --
 
-INSERT INTO `user_profile` (`user_ID`, `Name`, `Gender`, `email`, `About_user`, `Profile_pic`, `DOB`, `Phone`, `YES_UID`) VALUES
-(1, 'Nine', 'Male', 'pannatjaat@gmail.com', 'I love Pam very much', 0x617364313234746c6468646773666c64617364, '25-11-2002', '0992302332', NULL),
-(2, 'Alice', 'Female', 'alice@gmail.com', 'I enjoy hiking and reading', 0x617364313234746c6468646773666c64617364, '1995-08-10', '1234567890', NULL),
-(3, 'Bob', 'Male', 'bob@example.com', 'Tech enthusiast and coffee lover', 0x626f6270726f66696c655f706963, '1988-03-22', '9876543210', NULL),
-(4, 'Eva', 'Female', 'eva@example.com', 'Passionate about art and travel', 0x657661313233746c6468646773666c64617364, '1990-05-15', '5555555555', NULL),
-(5, 'Charlie', 'Non-Binary', 'charlie@gmail.com', 'Tech geek and cat lover', 0x636861726c69655f706963, '1985-12-01', '1231231234', NULL),
-(6, 'Olivia', 'Female', 'olivia@example.com', 'Fitness enthusiast and foodie', 0x6f6c697669615f706963, '1993-09-28', '9876543210', NULL);
+INSERT INTO `user_profile` (`user_ID`, `Name`, `Gender`, `email`,`password`, `About_user`, `Profile_pic`, `DOB`, `YES_UID`) VALUES
+(1, 'Nine', 'Male', 'pannatjaat@gmail.com',"123445", 'I love Pam very much', 0x617364313234746c6468646773666c64617364, '25-11-2002', NULL),
+(2, 'Alice', 'Female', 'alice@gmail.com',"212421", 'I enjoy hiking and reading', 0x617364313234746c6468646773666c64617364, '1995-08-10',  NULL),
+(3, 'Bob', 'Male', 'bob@example.com',"123456", 'Tech enthusiast and coffee lover', 0x626f6270726f66696c655f706963, '1988-03-22',  NULL),
+(4, 'Eva', 'Female', 'eva@example.com',"1255423", 'Passionate about art and travel', 0x657661313233746c6468646773666c64617364, '1990-05-15', NULL),
+(5, 'Charlie', 'Non-Binary', 'charlie@gmail.com',"23432423", 'Tech geek and cat lover', 0x636861726c69655f706963, '1985-12-01',  NULL),
+(6, 'Olivia', 'Female', 'olivia@example.com','124454354', 'Fitness enthusiast and foodie', 0x6f6c697669615f706963, '1993-09-28', NULL);
 
 --
 -- Indexes for dumped tables

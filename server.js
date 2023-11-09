@@ -12,6 +12,7 @@ app.use(express.json());
 const port = process.env.PORT || 3306;
 
 
+app.use('/api/admin', require("./routes/adminRoute"));
 app.use('/api/user', require("./routes/userRoute"));
 app.use(errorHandler);
 app.listen(port, ()=> {
