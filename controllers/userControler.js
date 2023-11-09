@@ -66,21 +66,47 @@ const createUser = asyncHandler(async(req,res) => {
     
 });
 
+
 //@desc get a user
 //@route GET /api/user/:id
 //@access public
 const getUser = asyncHandler(async(req,res) => {
-    res.status(200).json({message: 'Get user for ' + req.params.id});
+    const email = req.params.email;
+    try{ 
+        connection.query("SELECT * FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        if (err){
+            console.log(err);
+            return res.status(400).send();
+        }
+        res.status(200).json(results);
+    })
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
 });
+
 
 
 //@desc update a user
 //@route PUT /api/user/:id
 //@access public
 const updateUser = asyncHandler(async(req,res) => {
-    res.status(200).json({message: 'Update user for ' + req.params.id});
+    const email = req.params.email;
+    const newAbout_user = req.body.new
+    try{ 
+        connection.query("SELECT * FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        if (err){
+            console.log(err);
+            return res.status(400).send();
+        }
+        res.status(200).json(results);
+    })
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
 });
-
 
 //@desc DELETE a user
 //@route DELETE /api/user/:id
