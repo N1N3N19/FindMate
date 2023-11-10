@@ -1,10 +1,11 @@
+// App.jsx
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import LoginForm from "./Pages/LoginForm";
 import AdminPanel from "./Pages/AdminPanel";
 import Dashboard from "./Components/Dashboard";
 import AllUsers from "./Components/AllUsers";
-import Feedback from "./Components/Feedback";
+import FeedBack from "./Components/FeedBack";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,16 +23,18 @@ const App = () => {
           element={
             isLoggedIn ? (
               <AdminPanel>
-                <Route index element={<Dashboard />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="all-users" element={<AllUsers />} />
-                <Route path="feedback" element={<Feedback />} />
+                <Outlet /> {/* Renders child routes */}
               </AdminPanel>
             ) : (
               <LoginForm onLogin={handleLogin} />
             )
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="all-users" element={<AllUsers />} />
+          <Route path="feedback" element={<FeedBack />} />
+        </Route>
       </Routes>
     </Router>
   );

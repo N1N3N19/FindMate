@@ -1,6 +1,8 @@
+// AdminPanel.jsx
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import "./AdminPanel.css"; // Create a CSS file for styling
+import "./AdminPanel.css";
+import Dashboard from "../Components/Dashboard";
 
 const AdminPanel = () => {
   return (
@@ -8,14 +10,9 @@ const AdminPanel = () => {
       <nav className="admin-nav">
         <ul>
           <li>
-            <Link to="ashboard">Dashboard</Link>
+            <Link to="/admin/dashboard">Dashboard</Link>
           </li>
-          <li>
-            <Link to="all-users">All Users</Link>
-          </li>
-          <li>
-            <Link to="feedback">Feedback</Link>
-          </li>
+          {/* Add more navigation links for other sections */}
         </ul>
       </nav>
       <div className="admin-content">

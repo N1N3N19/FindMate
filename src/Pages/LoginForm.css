@@ -69,6 +69,6 @@ body {
 }
 
 #login-form form input[type="submit"]:hover {
-  background-color: ff3131;
+  background-color: deepskyblue;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
