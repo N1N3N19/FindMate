@@ -2,12 +2,15 @@ const mysql = require('mysql2/promise');
 
 async function fetchDataFromDatabase() {
   // Create a MySQL connection
-  const connection = await mysql.createConnection({
-    host: 'your_database_host',
-    user: 'your_database_user',
-    password: 'your_database_password',
-    database: 'your_database_name',
-  });
+  const connection = mysql.createConnection(
+    {
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'findmate',
+        port: 3306
+    }
+)
 
   try {
     // Execute a sample SQL query
@@ -27,4 +30,4 @@ async function fetchDataFromDatabase() {
 }
 
 // Call the function to fetch and convert data
-exports(fetchDataFromDatabase);
+module.exports = fetchDataFromDatabase;

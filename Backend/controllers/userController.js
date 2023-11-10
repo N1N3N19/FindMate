@@ -32,7 +32,7 @@ const registUser = asyncHandler(async(req,res) => {
     const userAvailable = await fetchDataFromDatabase.findOne({email});
     if(userAvailable){
         res.status(400);
-        throw new Error("There are some informations you forgot to fill");
+        throw new Error("This user has been created");
     }
     try{
             connection.query(
@@ -82,3 +82,5 @@ const loginUser = asyncHandler(async(req,res) => {
     }
     
 });
+
+module.exports = {registUser,loginUser}
