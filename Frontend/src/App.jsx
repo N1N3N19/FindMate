@@ -1,19 +1,43 @@
-import { Route, Routes } from 'react-router-dom'
-import Signup from './Signup'
-import Signin from './Signin'
-import Registration from './Registration'
+// App.jsx
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import LoginForm from "./Pages/LoginForm";
+import AdminPanel from "./Pages/AdminPanel";
+import Dashboard from "./Components/Dashboard";
+import AllUsers from "./Components/AllUsers";
+import FeedBack from "./Components/FeedBack";
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
   return (
-    <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
+    <Router>
       <Routes>
-        <Route path='Signin' element={<Signin/>}></Route> 
-        <Route path='Signup' element={<Signup/>}></Route> 
-        <Route path='Registration' element={<Registration/>}></Route>
+        <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        <Route
+          path="/admin"
+          element={
+            isLoggedIn ? (
+              <AdminPanel>
+                <Outlet /> {/* Renders child routes */}
+              </AdminPanel>
+            ) : (
+              <LoginForm onLogin={handleLogin} />
+            )
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="all-users" element={<AllUsers />} />
+          <Route path="feedback" element={<FeedBack />} />
+        </Route>
       </Routes>
-    </div>
-  )
-}
+    </Router>
+  );
+};
 
-export default App
+export default App;
