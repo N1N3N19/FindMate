@@ -42,11 +42,11 @@ const getallUsers =  asyncHandler(async(req,res) => {
 //@access public
 const createUser = asyncHandler(async(req,res) => {
     console.log("The request body is :", req.body);
-    const {Name, Gender, email, About_user, Profile_pic, DOB, Phone} = req.body;
+    const {register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID} = req.body;
     try{
             connection.query(
-                "INSERT INTO user_profile(Name, Gender, email, About_user, Profile_pic, DOB, Phone) VALUES(?, ?, ?, ?, ?, ?, ?)",
-                [Name, Gender, email, About_user, Profile_pic, DOB, Phone],
+                "INSERT INTO user_profile(register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID],
                 (err, results, fields) => {
                     if (err){
                         console.log("Error while inserting a user into the database", err);
@@ -114,7 +114,7 @@ const deleteUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
     
     try{ 
-        connection.query("DELETE FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        connection.query("DELETE FROM register WHERE email = ?",[email], (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
@@ -122,7 +122,7 @@ const deleteUser = asyncHandler(async(req,res) => {
         if (results.affectedRows == 0){
             return res.status(404).json("No user that has the email");
         }
-        return res.status(2000).json("User has been deleted successfully");
+        return res.status(200).json("User has been deleted successfully");
     })
     } catch(err){
         console.log(err);

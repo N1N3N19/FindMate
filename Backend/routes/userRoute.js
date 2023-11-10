@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const{registUser,loginUser} = require("../controllers/userController");
+const{checkUser,registUser,loginUser} = require("../controllers/userController");
 
-router.route("/regis").post(registUser);
+router.route("/regis").post(checkUser);
 router.post("/login", (req, res) =>{
     res.json({message: "Login the user"});
 });
