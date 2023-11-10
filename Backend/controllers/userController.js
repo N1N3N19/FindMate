@@ -1,5 +1,7 @@
-const asyncHandler = require("express-async-handler");
+
+const bcrypt = require('bcrypt');
 const mysql = require('mysql2/promise');
+const jwt = require("jsonwebtoken");
 
 const pool = mysql.createPool({
   host: 'localhost',
@@ -37,15 +39,17 @@ const checkUser = async (req, res) => {
 
     const registerQuery = 'INSERT INTO register (email, password, confirm_password) VALUES (?, ?, ?)';
     const userProfileQuery = 'INSERT INTO user_profile (register_ID, email, password) VALUES (?, ?, ?)';
-
+    //hash password
+    const hashPassword = await bcrypt.hash(password, 10);
+    
     const connection = await pool.getConnection();
     await connection.beginTransaction();
 
     try {
-      const registerResult = await connection.query(registerQuery, [email, password, cfPassword]);
+      const registerResult = await connection.query(registerQuery, [email, hashPassword, hashPassword]);
       const registerID = registerResult[0].insertId;
 
-      const userProfileResult = await connection.query(userProfileQuery, [registerID, email, password]);
+      const userProfileResult = await connection.query(userProfileQuery, [registerID, email, hashPassword]);
 
       await connection.commit();
 
@@ -77,7 +81,7 @@ const registUser = async (req, res) => {
       }
   
       const [result] = await pool.query(
-        'INSERT INTO user_profile (Name, Gender, email, password, About_user, Profile_pic, DOB) VALUES (?, ?, ?, ?, ?, ?,?)',
+        'INSERT INTO user_profile (Name, Gender, About_user, Profile_pic, DOB) VALUES (?, ?, ?, ?,?)',
         [Name, Gender, email, password, About_user, Profile_pic, DOB]
       );
   
@@ -93,29 +97,37 @@ const registUser = async (req, res) => {
 //@route POST /api/user/login
 //@access public
 
-const loginUser = asyncHandler(async(req,res) => {
-    const {Name, Gender, email, password, About_user, Profile_pic, DOB, Phone} = req.body;
-    try{
-            connection.query(
-                "INSERT INTO user_profile(Name, Gender, email, password, About_user, Profile_pic, DOB, Phone) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                [Name, Gender, email,password, About_user, Profile_pic, DOB, Phone],
-                (err, results, fields) => {
-                    if (err){
-                        console.log("Error while inserting a user into the database", err);
-                        return res.status(400).send(); 
-                    }
-                    return res.status(201).json({ message: "New user successfully created!"});
-                }
-            )
-    } catch(err){
-        console.log(err);
-        return res.status(500).send;
-    }
-    if( !Name || !email || !DOB){
-        res.status(400);
-        throw new Error("There are some informations you forgot to fill");
-    }
-    
-});
+const loginUser = async(req,res) => {
+  const {email, password} = req.body;
+  try{
+    const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
+    const user = rows[0];
+    if (!email ||!password ){
+      res.status(400);
+      throw new Error("All this are mandatory");
+    }  
 
-module.exports = {checkUser,registUser,loginUser}
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '1m' });
+    res.status(200).json({ token });
+  } catch(error){
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+ 
+};
+  const currentUser = async(req,res) =>{
+    
+      res.json({message: "current user information"});
+  
+  };
+module.exports = {checkUser,registUser,loginUser,currentUser}
+
+//@desc current user info
+//@route POST /api/user/current
+//@access private
