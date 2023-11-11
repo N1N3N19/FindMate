@@ -1,17 +1,19 @@
 import { Route, Routes } from 'react-router-dom'
-import Signup from './Signup'
-import Signin from './Signin'
-import Registration from './Registration'
+import UserSignup from './UserSignup'
+import UserSignin from './UserSignin'
+import UserRegister from './UserRegister'
+import UserAgreement from './UserAgreement'
 
 function App() {
 
   return (
     <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
       <Routes>
-        <Route path='Signin' element={<Signin/>}></Route> 
-        <Route path='Signup' element={<Signup/>}></Route> 
-        <Route path='Registration' element={<Registration/>}></Route>
-      </Routes>
+        <Route path='UserSignin' element={<UserSignin/>}></Route> 
+        <Route path='UserSignup' element={<UserSignup/>}></Route> 
+        <Route path='UserRegister' element={<UserRegister/>}></Route>
+        <Route path='UserAgreement' element={<UserAgreement/>}></Route>
+        </Routes>
     </div>
   )
 }
