@@ -1,0 +1,29 @@
+.admin-panel {
+    display: flex;
+  }
+  
+  .admin-nav {
+    width: 200px;
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  .admin-nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-nav li {
+    margin-bottom: 10px;
+  }
+  
+  .admin-nav a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .admin-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
