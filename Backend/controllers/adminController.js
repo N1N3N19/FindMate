@@ -1,30 +1,32 @@
 const asyncHandler = require("express-async-handler");
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcrypt');
 
-const connection = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'findmate',
-        port: 3306
-    }
-)
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'findmate',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+  });
 
-connection.connect((err)=>{
-    if (err){
-        console.log('Error connecting to MySQL database = ', err)
-        return;
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.log('Error connecting to MySQL database = ', err);
+    } else {
+      console.log('MySQL successfully connected!');
+      connection.release();
     }
-    console.log('MySQL successfully connected!');
-})
+  });
 
 //@desc get all user
 //@route GET /api/user
-//@access public
-const getallUsers =  asyncHandler(async(req,res) => {
+//@access private
+const getallUsers =  async(req,res) => {
   
-    try{ connection.query("SELECT * FROM user_profile", (err, results, fields) => {
+    try{ pool.query("SELECT * FROM user_profile", (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
@@ -35,45 +37,51 @@ const getallUsers =  asyncHandler(async(req,res) => {
         console.log(err);
         return res.status(500).send();
     }
-});
+};
 
 //@desc Create a user
 //@route POST /api/user
-//@access public
-const createUser = asyncHandler(async(req,res) => {
-    console.log("The request body is :", req.body);
-    const {register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID} = req.body;
-    try{
-            connection.query(
-                "INSERT INTO user_profile(register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                [register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID],
-                (err, results, fields) => {
-                    if (err){
-                        console.log("Error while inserting a user into the database", err);
-                        return res.status(400).send(); 
-                    }
-                    return res.status(201).json({ message: "New user successfully created!"});
-                }
-            )
-    } catch(err){
-        console.log(err);
-        return res.status(500).send;
-    }
-    if( !Name || !email || !DOB){
-        res.status(400);
-        throw new Error("There are some informations you forgot to fill");
-    }
+//@access private
+const createUser = async (req, res) => {
+    try {
+        console.log("The request body is:", req.body);
+        const { register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID } = req.body;
+
+        if (!Name || !email || !DOB) {
+            res.status(400).json({ message: "Some required information is missing" });
+            return;
+        }
+
+        const registerQuery = 'INSERT INTO register (email, password, confirm_password) VALUES (?, ?, ?)';
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        const userProfileQuery = "INSERT INTO user_profile(user_ID, register_ID, Name, Gender, email, password, About_user, Profile_pic, DOB, YES_UID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        const registerResult = await connection.query(registerQuery, [email, hashPassword, hashPassword]);
+        const registerID = registerResult[0].insertId;
     
-});
+        const userProfileResult = await connection.query(userProfileQuery, [req.user, registerID, Name, Gender, email, hashPassword, About_user, Profile_pic, DOB, YES_UID]);
+
+        await connection.commit();
+
+        res.status(201).json({ message: "New user successfully created!" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+};
+
 
 
 //@desc get a user
 //@route GET /api/user/read/single/:email
-//@access public
+//@access private
 const getUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
     try{ 
-        connection.query("SELECT * FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
+        pool.query("SELECT * FROM user_profile WHERE email = ?",[email], (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
@@ -89,12 +97,12 @@ const getUser = asyncHandler(async(req,res) => {
 
 //@desc update a user
 //@route PUT /api/user/:id
-//@access public
+//@access private
 const updateUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
     const newAbout_user = req.body.newAbout_user
     try{ 
-        connection.query("UPDATE user_profile SET About_user = ? WHERE email = ?",[newAbout_user, email], (err, results, fields) => {
+        pool.query("UPDATE user_profile SET About_user = ? WHERE email = ?",[newAbout_user, email], (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();
@@ -109,12 +117,12 @@ const updateUser = asyncHandler(async(req,res) => {
 
 //@desc DELETE a user
 //@route DELETE /api/user/:id
-//@access public
+//@access private
 const deleteUser = asyncHandler(async(req,res) => {
     const email = req.params.email;
     
     try{ 
-        connection.query("DELETE FROM register WHERE email = ?",[email], (err, results, fields) => {
+        pool.query("DELETE FROM register WHERE email = ?",[email], (err, results, fields) => {
         if (err){
             console.log(err);
             return res.status(400).send();

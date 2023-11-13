@@ -113,7 +113,7 @@ const loginUser = async(req,res) => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '1m' });
+    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
     res.status(200).json({ token });
   } catch(error){
     console.error('Login error:', error);
