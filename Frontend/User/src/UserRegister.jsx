@@ -7,6 +7,12 @@ import '../src/UserCustom.css'
 import Avatar from "./Avatar";
 
 const UserRegister = () => {
+    
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        window.location.href = "/UserMode";
+    };
+
     return (
         <div>
             <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">
@@ -14,7 +20,7 @@ const UserRegister = () => {
                     <img src={logo2} alt="Logo" style={{ width: '75px', height: 'auto' }} />
                 </div>
                 <h1 className="text-3xl text-gray-950 font-bold mt-5 mb-5 text-center">Registration</h1>
-                <form action="">
+                <form onSubmit={handleFormSubmit}>
                 <div className="p-2">
                     <Avatar />
                 </div>
@@ -36,7 +42,7 @@ const UserRegister = () => {
                     <input type="checkbox" id="checkbox" className="relative my-1 mx-3.5 right-2 top-1.5"></input>
                     <label for="checkbox" className="flex items-start pl-2 left-2.5 absolute scale-75 w-full text-neutral-500" style={{top: '610px'}}>I agree to the  <Link to="/UserAgreement" target="_blank" className="ml-1 hover:text-orange-600"><u>Terms & Conditions and Privacy Policy.</u></Link></label>
                 </div>
-                <button className="w-full wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
+                <button onClick="myFunction()" className="w-full wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
                 </form>
             </div>
                 <div className="relative my-2 text-center">

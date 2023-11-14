@@ -5,6 +5,7 @@ import logo from '../src/assets/logo.png';
 import '../src/UserPlaceholder.css'
 
 const UserSignup = () => {
+    
     const handleFormSubmit = (e) => {
         e.preventDefault();
         window.location.href = "/UserRegister";
