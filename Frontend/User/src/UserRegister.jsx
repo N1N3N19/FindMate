@@ -5,6 +5,7 @@ import {BsGenderAmbiguous} from "react-icons/bs";
 import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'
 import '../src/UserCustom.css'
+import { useParams } from 'react-router-dom';
 import Avatar from "./Avatar";
 
 const UserRegister = () => {
@@ -44,12 +45,14 @@ const UserRegister = () => {
         );
         
     }
+    //get userID from userRegister router
+     const { userID } = useParams();
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const dataTosend = { name, gender, dob, avatar};
         console.log('Data to send:', dataTosend);
 
-        const response = await fetch('http://localhost:5001/api/user/regis/complete', {
+        const response = await fetch(`http://localhost:5001/api/user/regis/complete/${userID}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

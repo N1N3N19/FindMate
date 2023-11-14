@@ -6,6 +6,7 @@ import logo from '../src/assets/logo.png';
 import '../src/UserPlaceholder.css'
 import { useNavigate } from 'react-router-dom';
 
+
 const UserSignup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -35,6 +36,8 @@ const UserSignup = () => {
         e.preventDefault();
         const dataToSend = { email, password, cfPassword };
         console.log('Data to send:', dataToSend);
+
+        
     
         const response = await fetch('http://localhost:5001/api/user/regis', {
             method: 'POST',
@@ -43,17 +46,21 @@ const UserSignup = () => {
             },
             body: JSON.stringify(dataToSend),
         }
+        
         //TO DO: redirect to UserRegister page
         
         );
+        
     
-        const data = await response.json();
-        console.log('API Response:', data);
+        let data = await response.json();
+       console.log(data);
     
         if (response.ok) {
-            // Handle success
-            console.log(data.message);
-            navigate('/UserRegister');
+            // Handle success console.log("sometinh" + data);
+            let userID = data.userID; 
+            console.log('API Response:', data);
+            console.log(data.userID);
+            navigate(`/UserRegister/${userID}`);
         } else {
             // Handle error
             console.error('Sign-up failed:', data.message);

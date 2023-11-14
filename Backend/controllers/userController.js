@@ -61,7 +61,13 @@ const checkUser = async (req, res) => {
 
       await connection.commit();
 
+      //return user id from database table user_profile
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
+      const user = rows[0];
+      res.json( {userID: user.user_ID});
       res.status(201).json({ message: "User registered and profile created successfully!" });
+      
+      
     } catch (error) {
       await connection.rollback();
       console.error('Error creating user:', error);
@@ -81,7 +87,7 @@ const checkUser = async (req, res) => {
 //@route POST /api/user/Regis
 //@access public
 const registUser = async (req, res) => {
-  const id = req.params.email;
+  const id = req.params.id;
     try {
       const { Name, Gender,  Profile_pic, DOB } = req.body;
       if (!Name || !DOB) {
@@ -89,10 +95,10 @@ const registUser = async (req, res) => {
         return;
       }
       console.log(DOB)
-      // const [result] = await pool.query(
-      //   'INSERT INTO user_profile (Name, Gender,  Profile_pic, DOB) VALUES (?, ?, ?, ?)' WHERE id = ?,
-      //   [Name, Gender, Profile_pic, DOB, id]
-      // );
+       const [result] = await pool.query(
+         'INSERT INTO user_profile (Name, Gender,  Profile_pic, DOB) VALUES (?, ?, ?, ?) WHERE id = ?',
+         [Name, Gender, Profile_pic, DOB, id]
+       );
   
       res.status(201).json({ message: "New user successfully created!" });
     } catch (error) {
