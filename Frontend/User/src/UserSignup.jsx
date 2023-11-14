@@ -1,15 +1,63 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useDebugValue, useState } from 'react';
+import { Link, redirect } from "react-router-dom";
 import {BiUser} from "react-icons/bi";
 import {AiOutlineUnlock} from "react-icons/ai";
 import logo from '../src/assets/logo.png';
 import '../src/UserPlaceholder.css'
+import { useNavigate } from 'react-router-dom';
 
 const UserSignup = () => {
-    
-    const handleFormSubmit = (e) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [cfPassword, setCfPassword] = useState('');
+
+    const handleEmailInput = (e) => {
         e.preventDefault();
-        window.location.href = "/UserRegister";
+        console.info('Email:', e.target.value);
+        setEmail(e.target.value);
+    };
+    
+    const handlePasswordInput = (e) => {   
+        e.preventDefault();
+        console.info('Password:', e.target.value);
+        setPassword(e.target.value);
+    };
+
+    const handlecfPasswordInput = (e) => {
+        e.preventDefault();
+        console.info('Confirm Password:', e.target.value);
+        setCfPassword(e.target.value);
+    };
+    
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const dataToSend = { email, password, cfPassword };
+        console.log('Data to send:', dataToSend);
+    
+        const response = await fetch('http://localhost:5001/api/user/regis', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
+        }
+        //TO DO: redirect to UserRegister page
+        
+        );
+    
+        const data = await response.json();
+        console.log('API Response:', data);
+    
+        if (response.ok) {
+            // Handle success
+            console.log(data.message);
+            navigate('/UserRegister');
+        } else {
+            // Handle error
+            console.error('Sign-up failed:', data.message);
+        }
     };
 
     return (
@@ -19,7 +67,7 @@ const UserSignup = () => {
                     <img src={logo} alt="Logo" style={{ width: '150px', height: 'auto' }} />
                 </div>
                 <h1 className="text-3xl text-gray-950 font-bold mt-5 mb-5 text-left">Sign up</h1>
-                <form action="">
+                <form onSubmit={handleSubmit}>
                 <div className="relative my-4">
                     <input type="email" className="rounded-full w-full py-2.5 pl-5 px-0 mt-1 text-sm text-neutral-500 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer" placeholder="" value={email} onChange={handleEmailInput}/>
                     <label htmlFor="" className="absolute text-sm text-neutral-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-3 peer-focus:text-amber-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y peer-placeholder-shown:mt-6 peer-placeholder-shown:left-3 peer-focus:scale-75">Enter your email...</label>
@@ -52,4 +100,4 @@ const UserSignup = () => {
     );
 };
 
-export default Signup;
+export default UserSignup;
