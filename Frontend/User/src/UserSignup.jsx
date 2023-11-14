@@ -6,6 +6,12 @@ import logo from '../src/assets/logo.png';
 import '../src/UserPlaceholder.css'
 
 const UserSignup = () => {
+    
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        window.location.href = "/UserRegister";
+    };
+
     return (
         <div>
             <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">

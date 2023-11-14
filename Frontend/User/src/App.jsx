@@ -3,6 +3,7 @@ import UserSignup from './UserSignup'
 import UserSignin from './UserSignin'
 import UserRegister from './UserRegister'
 import UserAgreement from './UserAgreement'
+import UserMode from './UserMode'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='UserSignup' element={<UserSignup/>}></Route> 
         <Route path='UserRegister' element={<UserRegister/>}></Route>
         <Route path='UserAgreement' element={<UserAgreement/>}></Route>
+        <Route path='UserMode' element={<UserMode/>}></Route>
         </Routes>
     </div>
   )
