@@ -17,6 +17,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route
           path="/admin"

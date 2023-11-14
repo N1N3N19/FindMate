@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const {
     getallUsers, 
-    createUser, 
+    createUser,
+    createAdmin,
+    loginAdmin, 
     getUser, 
     updateUser, 
     deleteUser
@@ -10,8 +12,10 @@ const {
 const validateToken = require("../middleware/validateTokenHandler");
 
 // router.use(validateToken);
+router.route('/login').post(loginAdmin);
 router.route('/read').get(getallUsers);
-router.route('/created').post(createUser);
+router.route('/create').post(createUser);
+router.route('/createAdmin').post(createAdmin);
 router.route('/delete/:email').delete(deleteUser);
 router.route('/read/single/:email').get(getUser)
 router.route('/update/:email').patch(updateUser)

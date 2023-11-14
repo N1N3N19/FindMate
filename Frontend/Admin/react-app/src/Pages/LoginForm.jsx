@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
 
+
 const LoginForm = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
 
@@ -11,18 +12,33 @@ const LoginForm = ({ onLogin }) => {
     setCredentials((prevCredentials) => ({ ...prevCredentials, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const dataToSend = { username: credentials.username, password: credentials.password };
+    console.log('Data to send:', dataToSend);
 
-    // Simulate authentication (replace with your actual authentication logic)
-    if (credentials.username === "admin" && credentials.password === "password") {
-      // Successful login
-      onLogin();
+    const response = await fetch('http://localhost:5001/api/admin/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+    });
+
+    const data = await response.json();
+    console.log('API Response:', data);
+
+    if (response.ok) {
+       
+        console.log(data.message);
+        
     } else {
-      // Failed login
-      alert("Invalid credentials");
+        // Handle error
+        console.error('Sign-in failed:', data.message);
+        // show popup error
+        alert(data.message);
     }
-  };
+}; 
 
   return (
     <div id="login-form">
@@ -44,7 +60,7 @@ const LoginForm = ({ onLogin }) => {
           value={credentials.password}
           onChange={handleInputChange}
         />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" onClick={handleSubmit} />
       </form>
     </div>
   );

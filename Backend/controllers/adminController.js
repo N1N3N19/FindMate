@@ -20,6 +20,71 @@ const pool = mysql.createPool({
       connection.release();
     }
   });
+//@desc get create an admin
+//@route POST /api/create/admin
+//@access private
+const createAdmin = async(req, res) => {
+    console.log('createAdmin called');
+    const {username, password} = req.body;
+    try {
+        console.log('Before query');
+        const hashPassword = await bcrypt.hash(password, 10);
+        const result = await new Promise((resolve, reject) => {
+            pool.query("INSERT INTO admin (username, password) VALUES (?, ?)", [username, hashPassword], (err, results, fields) => {
+                console.log('Inside query callback');
+                if (err) {
+                    console.log('Query error', err);
+                    reject(err);
+                } else {
+                    console.log('Query success', results);
+                    resolve(results);
+                }
+            });
+        });
+        console.log('After query');
+        res.status(200).json({message: "Admin has been created successfully"});
+    } catch(err) {
+        console.log('Catch error', err);
+        res.status(500).send();
+    }
+};
+
+//@desc login an admin
+//@route POST /api/admin/login
+//@access public
+const loginAdmin = async(req, res) => {
+    console.log('loginAdmin called');
+    const {username, password} = req.body;
+    try {
+        console.log('Before query');
+        const result = await new Promise((resolve, reject) => {
+            pool.query("SELECT * FROM admin WHERE username = ?", [username], (err, results, fields) => {
+                console.log('Inside query callback');
+                if (err) {
+                    console.log('Query error', err);
+                    reject(err);
+                } else {
+                    console.log('Query success', results);
+                    resolve(results);
+                }
+            });
+        });
+        console.log('After query');
+        if (result.length === 0) {
+            res.status(400).json({message: "Invalid username or password"});
+            return;
+        }
+        const match = await bcrypt.compare(password, result[0].password);
+        if (!match) {
+            res.status(400).json({message: "Invalid username or password"});
+            return;
+        }
+        res.status(200).json({message: "Login successful"});
+    } catch(err) {
+        console.log('Catch error', err);
+        res.status(500).send();
+    }
+}
 
 //@desc get all user
 //@route GET /api/user
@@ -139,8 +204,10 @@ const deleteUser = asyncHandler(async(req,res) => {
 });
 
 module.exports = {
-    getallUsers, 
-    createUser, 
+    getallUsers,
+    createAdmin, 
+    createUser,
+    loginAdmin, 
     getUser, 
     updateUser, 
     deleteUser};

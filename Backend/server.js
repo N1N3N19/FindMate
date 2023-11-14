@@ -3,11 +3,17 @@ const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 const dotenv = require("dotenv").config();
 const app = express();
+const session = require("express-session");
 
 
 app.use(express.json());
 app.use(cors());
-
+app.use(session({
+    secret: 'secret',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: true})
+    );
 
 const port = process.env.PORT || 3306;
 
