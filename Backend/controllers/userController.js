@@ -81,17 +81,18 @@ const checkUser = async (req, res) => {
 //@route POST /api/user/Regis
 //@access public
 const registUser = async (req, res) => {
+  const id = req.params.email;
     try {
-      const { Name, Gender, About_user, Profile_pic, DOB } = req.body;
+      const { Name, Gender,  Profile_pic, DOB } = req.body;
       if (!Name || !DOB) {
         res.status(400).json({ message: "Some required information is missing" });
         return;
       }
-  
-      const [result] = await pool.query(
-        'INSERT INTO user_profile (Name, Gender, About_user, Profile_pic, DOB) VALUES (?, ?, ?, ?,?)',
-        [Name, Gender, email, password, About_user, Profile_pic, DOB]
-      );
+      console.log(DOB)
+      // const [result] = await pool.query(
+      //   'INSERT INTO user_profile (Name, Gender,  Profile_pic, DOB) VALUES (?, ?, ?, ?)' WHERE id = ?,
+      //   [Name, Gender, Profile_pic, DOB, id]
+      // );
   
       res.status(201).json({ message: "New user successfully created!" });
     } catch (error) {

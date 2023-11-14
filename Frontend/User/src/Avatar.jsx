@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import defaultAvatar from '../src/assets/avatar.png';
 
-const Avatar = () => {
-  const [displayUploadButton, setDisplayUploadButton] = useState(false);
+
+const Avatar = ({ onImageUpload }) => {
+  const [displayUploadButton, setDisplayUploadButton] = useState(true);
   const [imageSrc, setImageSrc] = useState(defaultAvatar);
 
   const handleMouseEnter = () => {
@@ -21,6 +22,9 @@ const Avatar = () => {
 
       reader.addEventListener('load', () => {
         setImageSrc(reader.result);
+        if (onImageUpload) {
+          onImageUpload(reader.result);
+        }
       });
 
       reader.readAsDataURL(choosedFile);
