@@ -73,7 +73,7 @@ const Login = () => {
                         <button type='submit' className='btn flex'>
                             <span>Login </span>
                         </button>
-                        <Link to='/dashboard'>Dashboard</Link>
+                        <Link to='/sidebar'>Dashboard</Link>
                         <span className='forgotPassword'>
                             Forgot your password? <Link to='/forgot-password'>Click here</Link>
                         </span>

@@ -7,7 +7,7 @@ import {
     FaRegChartBar,
     FaCommentAlt
 }from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { IoIosLogOut } from "react-icons/io";
 
 const Sidebar = ({children}) => {
@@ -15,7 +15,7 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/",
+            path:"/dashboard",
             name:"Dashboard",
             icon:<FaTh/>
         },
@@ -63,9 +63,11 @@ const Sidebar = ({children}) => {
                        </NavLink>
                    ))
                }
+            
            </div>
            <main>{children}</main>
         </div>
+      
     );
 };
 

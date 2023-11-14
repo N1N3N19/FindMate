@@ -1,17 +1,14 @@
-import React from 'react'
-import './Dashboard.css'
-import Sidebar from './Sidebar/Sidebar'
-import Body from './Body/Body'
-import User from '../User/Users'
-const Dashboard = () =>{
-    return(
-        <div className='dashboard flex'>
-            <div className='dashboardContainer flex'>
-             
-                <Sidebar/>
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import Sidebar from './Sidebar/Sidebar';
 
-            </div>
-        </div>
-    )
-}
-export default Dashboard
+
+const Dashboard = () => {
+  return (
+    <div>
+     This is dashboard
+    </div>
+  );
+};
+
+export default Dashboard;
