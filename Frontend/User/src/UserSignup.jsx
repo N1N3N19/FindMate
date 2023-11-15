@@ -93,7 +93,7 @@ const UserSignup = () => {
                 </div>
                 <button className="w-full mb-4 wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
                 <div className="relative my-2 text-center">
-                    <span className="text-neutral-500">Already have an account?  <Link className="text-neutral-500 hover:text-orange-600" to='/Signin'><u>Sign in</u></Link></span>
+                    <span className="text-neutral-500">Already have an account?  <Link className="text-neutral-500 hover:text-orange-600" to='/UserSignin'><u>Sign in</u></Link></span>
                 </div>
                 </form>0
                 <div>

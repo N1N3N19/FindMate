@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import oui from '../src/assets/oui.jpg';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -85,8 +86,6 @@ const Modes = () => {
           className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
           onMouseEnter={() => handleMouseEnter('fan')}
           onMouseLeave={handleMouseLeave}
-          onClick={() => handleFormSubmit('fan')}
-          
         >
           <img src={oui} alt="oui2" className="w-full h-full rounded-lg" />
           {displayFanDesc && (
