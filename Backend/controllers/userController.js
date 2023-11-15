@@ -102,7 +102,9 @@ const registUser = async (req, res) => {
         'UPDATE user_profile SET Name = ?, Gender = ?, Profile_pic = ?, DOB = ? WHERE user_ID = ?',
          [Name, Gender, avatar, DOB, id]
        );
-  
+       
+       res.json( {userID: id});
+
       res.status(201).json({ message: "New user successfully created!" });
     } catch (error) {
       console.error('Error creating user:', error);
@@ -110,7 +112,10 @@ const registUser = async (req, res) => {
     }
   };
 
-  
+  //@desc user select a mode
+  //@route POST /api/user/mode
+
+
   //@desc get all user
   //@route GET /api/user/feed
   //@access private

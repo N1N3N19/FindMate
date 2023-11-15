@@ -16,7 +16,7 @@ function App() {
         <Route path='UserSignup' element={<UserSignup/>}></Route> 
         <Route path='UserRegister/:userID' element={<UserRegister/>}></Route>
         <Route path='UserAgreement' element={<UserAgreement/>}></Route>
-        <Route path='UserMode' element={<UserMode/>}></Route>
+        <Route path='UserMode/:userID' element={<UserMode/>}></Route>
         </Routes>
     </div>
   )

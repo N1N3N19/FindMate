@@ -5,6 +5,9 @@ import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'
 import '../src/UserCustom.css'
 import Avatar from "./Avatar";
+import { useNavigate } from 'react-router-dom';
+
+
 
 const UserRegister = () => {
     const [Name, setName] = useState('');
@@ -33,6 +36,9 @@ const UserRegister = () => {
         console.log("DOB:" + e.target.value);
     };
 
+    
+    const navigate = useNavigate();
+    
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const dataTosend = { Name, Gender, DOB, avatar};
@@ -49,8 +55,9 @@ const UserRegister = () => {
 
         if (response.ok) {
             // Handle success
-           
+            
             console.log(data.message);
+            navigate(`/UserMode/${userID}`);
         } else {
             // Handle error
             
