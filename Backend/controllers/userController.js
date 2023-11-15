@@ -103,9 +103,9 @@ const registUser = async (req, res) => {
          [Name, Gender, avatar, DOB, id]
        );
        
-       res.json( {userID: id});
+     
 
-      res.status(201).json({ message: "New user successfully created!" });
+      res.status(201).json({ userID: id, message: "New user successfully created!" });
     } catch (error) {
       console.error('Error creating user:', error);
       res.status(500).send();
