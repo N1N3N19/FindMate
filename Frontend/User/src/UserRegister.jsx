@@ -1,59 +1,44 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
-import {BsPersonVcard} from "react-icons/bs";
-import {BsGenderAmbiguous} from "react-icons/bs";
+import { Link, useParams } from "react-router-dom";
+import {BsPersonVcard, BsGenderAmbiguous} from "react-icons/bs";
 import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'
 import '../src/UserCustom.css'
-import { useParams } from 'react-router-dom';
 import Avatar from "./Avatar";
 
 const UserRegister = () => {
-    const [name, setName] = useState('');
-    const [gender, setGender] = useState('');
-    const [dob, setDob] = useState('');
-    
+    const [Name, setName] = useState('');
+    const [Gender, setGender] = useState('');
+    const [DOB, setDob] = useState('');
+    let [avatar, setAvatar] = useState('');
 
-    const handleName = async (e) => {
-        e.preventDefault();
-        console.info('Name:', e.target.value);
-        setName(e.target.value);
-    };
-    
-    const handleGender = async (e) => {
-        e.preventDefault();
-        console.info('Gender:', e.target.value);
-        setGender(e.target.value);
-    };
-
-    const handleDob = async (e) => {
-        e.preventDefault();
-        console.info('DOB:', e.target.value);
-        setDob(e.target.value);
-    };
-
-    function ParentComponent() {
-        const [avatar, setAvatar] = useState('');
-    
-       
-        
-        return (
-            <Avatar onImageUpload={(handleAvatarChange) => {
-                const base64Data = handleAvatarChange.split(',')[1];
-                setAvatar(base64Data);
-                console.log(base64Data)}} />
-        );
-        
-    }
     //get userID from userRegister router
-     const { userID } = useParams();
+    const { userID } = useParams();
+
+    const handleName = (e) => {
+        e.preventDefault();
+        setName(e.target.value);
+        console.log("name:" + e.target.value);
+    };
+    
+    const handleGender = (e) => {
+        e.preventDefault();
+        setGender(e.target.value);
+        console.log("Gender:" + e.target.value);
+    };
+
+    const handleDob = (e) => {
+        e.preventDefault();
+        setDob(e.target.value);
+        console.log("DOB:" + e.target.value);
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const dataTosend = { name, gender, dob, avatar};
-        console.log('Data to send:', dataTosend);
+        const dataTosend = { Name, Gender, DOB, avatar};
 
         const response = await fetch(`http://localhost:5001/api/user/regis/complete/${userID}`, {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -61,16 +46,17 @@ const UserRegister = () => {
         });
 
         const data = await response.json();
-        console.log('API Response:', data);
 
         if (response.ok) {
             // Handle success
+           
             console.log(data.message);
         } else {
             // Handle error
+            
             console.error('Insert failed:', data.message);
         }
-    }
+    };
     
     return (
         <div>
@@ -81,7 +67,12 @@ const UserRegister = () => {
                 <h1 className="text-3xl text-gray-950 font-bold mt-5 mb-5 text-center">Registration</h1>
                 <form onSubmit={handleFormSubmit}>
                 <div className="p-2">
-                    < ParentComponent />
+                    < Avatar onImageUpload={(handleAvatarChange) => {
+                        const base64Data = handleAvatarChange.split(',')[1];
+                        setAvatar(base64Data);
+                        avatar = base64Data;
+                        console.log("avatar: " + avatar);
+                    }} />
                     
                 </div>
                 <div className="relative my-4">

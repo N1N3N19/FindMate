@@ -89,15 +89,18 @@ const checkUser = async (req, res) => {
 const registUser = async (req, res) => {
   const id = req.params.id;
     try {
-      const { Name, Gender,  Profile_pic, DOB } = req.body;
+      
+     
+      
+      const { Name, Gender, DOB, avatar  } = req.body;
       if (!Name || !DOB) {
         res.status(400).json({ message: "Some required information is missing" });
         return;
       }
-      console.log(DOB)
+      strDOB = DOB.toString();
        const [result] = await pool.query(
-         'INSERT INTO user_profile (Name, Gender,  Profile_pic, DOB) VALUES (?, ?, ?, ?) WHERE id = ?',
-         [Name, Gender, Profile_pic, DOB, id]
+        'UPDATE user_profile SET Name = ?, Gender = ?, Profile_pic = ?, DOB = ? WHERE user_ID = ?',
+         [Name, Gender, avatar, DOB, id]
        );
   
       res.status(201).json({ message: "New user successfully created!" });
