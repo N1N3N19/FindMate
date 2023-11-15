@@ -114,7 +114,18 @@ const registUser = async (req, res) => {
 
   //@desc user select a mode
   //@route POST /api/user/mode
-
+  //@acccess private
+  const mode = async(req,res) => {
+    const {id} = req.params;
+    const {mode} = req.body;
+    try{
+      const [result] = await pool.query('INSERT INTO mode (user_ID, mode_pref) VALUES (?, ?)', [id, mode]);
+      res.json({userID: id})
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
 
   //@desc get all user
   //@route GET /api/user/feed
@@ -248,7 +259,7 @@ const loginUser = async(req,res) => {
     }
   
   }
-module.exports = {checkUser,registUser,loginUser,currentUser, feedUser}
+module.exports = {checkUser,registUser,loginUser,currentUser, feedUser, mode}
 
 //@desc current user info
 //@route POST /api/user/current
