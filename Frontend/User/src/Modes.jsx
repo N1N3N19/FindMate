@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import oui from '../src/assets/oui.jpg';
-<<<<<<< Updated upstream
+import Friend from '../src/assets/Mode_Friend.png';
+import Fan from '../src/assets/Mode_Fan.png';
+import Fun from '../src/assets/Mode_Fun.png';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-=======
-import Friend from '../src/assets/Mode_Friend.png';
-
-
->>>>>>> Stashed changes
 const Modes = () => {
   const { userID } = useParams();
 
@@ -69,14 +64,13 @@ const Modes = () => {
   return (
     <div className="grid grid-cols-3 gap-4">
       <div className="relative">
-<<<<<<< Updated upstream
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
           onMouseEnter={() => handleMouseEnter('friend')}
           onMouseLeave={handleMouseLeave} 
           onClick={() => handleFormSubmit('friend')}
         >
-          <img src={oui} alt="oui1" className="w-full h-full rounded-lg" />
+          <img src={Friend} alt="Friend" className="w-full h-full rounded-lg" />
           {displayFriendDesc && (
             <label
               htmlFor=""
@@ -86,34 +80,15 @@ const Modes = () => {
             </label>
           )}
         </div>
-=======
-        <Link to="/UserFinishPF">
-          <div
-            className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
-            onMouseEnter={() => handleMouseEnter('friend')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <img src={Friend} alt="FRIEND" className="w-full h-full rounded-lg" />
-            {displayFriendDesc && (
-              <label
-                htmlFor=""
-                className="absolute rounded-lg w-full h-full bottom-0 left-1/2 transform -translate-x-1/2 transition-all duration-300 text-center bg-opacity-70 bg-gray-800 text-white text-sm font-sans cursor-pointer flex items-center justify-center"
-              >
-                Find your funkiest pals from FRIEND mode!
-              </label>
-            )}
-          </div>
-        </Link>
->>>>>>> Stashed changes
         <label className="absolute text-4xl pt-4 pl-12 left-20"><b>FRIEND</b></label>
       </div>
       <div className="relative">
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
           onMouseEnter={() => handleMouseEnter('fan')}
           onMouseLeave={handleMouseLeave}
         >
-          <img src={oui} alt="oui2" className="w-full h-full rounded-lg" />
+          <img src={Fan} alt="Fan" className="w-full h-full rounded-lg" />
           {displayFanDesc && (
             <label
               htmlFor=""
@@ -127,12 +102,12 @@ const Modes = () => {
       </div>
       <div className="relative">
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
           onMouseEnter={() => handleMouseEnter('fun')}
           onMouseLeave={handleMouseLeave}
           onClick={() => handleFormSubmit('fun')}
         >
-          <img src={oui} alt="oui3" className="w-full h-full rounded-lg" />
+          <img src={Fun} alt="Fun" className="w-full h-full rounded-lg" />
           {displayFunDesc && (
             <label
               htmlFor=""
