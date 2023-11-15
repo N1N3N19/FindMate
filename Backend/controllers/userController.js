@@ -61,7 +61,13 @@ const checkUser = async (req, res) => {
 
       await connection.commit();
 
+      //return user id from database table user_profile
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
+      const user = rows[0];
+      res.json( {userID: user.user_ID});
       res.status(201).json({ message: "User registered and profile created successfully!" });
+      
+      
     } catch (error) {
       await connection.rollback();
       console.error('Error creating user:', error);
@@ -81,26 +87,57 @@ const checkUser = async (req, res) => {
 //@route POST /api/user/Regis
 //@access public
 const registUser = async (req, res) => {
+  const id = req.params.id;
     try {
-      const { Name, Gender, About_user, Profile_pic, DOB } = req.body;
+      
+     
+      
+      const { Name, Gender, DOB, avatar  } = req.body;
       if (!Name || !DOB) {
         res.status(400).json({ message: "Some required information is missing" });
         return;
       }
-  
-      const [result] = await pool.query(
-        'INSERT INTO user_profile (Name, Gender, About_user, Profile_pic, DOB) VALUES (?, ?, ?, ?,?)',
-        [Name, Gender, email, password, About_user, Profile_pic, DOB]
-      );
-  
-      res.status(201).json({ message: "New user successfully created!" });
+      strDOB = DOB.toString();
+       const [result] = await pool.query(
+        'UPDATE user_profile SET Name = ?, Gender = ?, Profile_pic = ?, DOB = ? WHERE user_ID = ?',
+         [Name, Gender, avatar, DOB, id]
+       );
+       
+     
+
+      res.status(201).json({ userID: id, message: "New user successfully created!" });
     } catch (error) {
       console.error('Error creating user:', error);
       res.status(500).send();
     }
   };
 
-  
+  //@desc user select a mode
+  //@route POST /api/user/mode
+  //@acccess private
+  const mode = async(req,res) => {
+    const {id} = req.params;
+    const {mode} = req.body;
+    // if id exists in mode table database delete that row and insert new row
+    try{
+      const [rows] = await pool.query('SELECT * FROM mode WHERE user_ID = ?', [id]);
+      const user = rows[0];
+      if (user) {
+        const [result] = await pool.query('DELETE FROM mode WHERE user_ID = ?', [id]);
+      }
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+    try{
+      const [result] = await pool.query('INSERT INTO mode (user_ID, mode_pref) VALUES (?, ?)', [id, mode]);
+      res.json({userID: id})
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
   //@desc get all user
   //@route GET /api/user/feed
   //@access private
@@ -233,7 +270,7 @@ const loginUser = async(req,res) => {
     }
   
   }
-module.exports = {checkUser,registUser,loginUser,currentUser, feedUser}
+module.exports = {checkUser,registUser,loginUser,currentUser, feedUser, mode}
 
 //@desc current user info
 //@route POST /api/user/current

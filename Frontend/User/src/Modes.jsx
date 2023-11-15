@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import oui from '../src/assets/oui.jpg';
-
+import Friend from '../src/assets/Mode_Friend.png';
+import Fan from '../src/assets/Mode_Fan.png';
+import Fun from '../src/assets/Mode_Fun.png';
+import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 const Modes = () => {
+  const { userID } = useParams();
+
   const [displayFriendDesc, setDisplayFriendDesc] = useState(false);
   const [displayFanDesc, setDisplayFanDesc] = useState(false);
   const [displayFunDesc, setDisplayFunDesc] = useState(false);
@@ -11,14 +16,17 @@ const Modes = () => {
       setDisplayFriendDesc(true);
       setDisplayFanDesc(false);
       setDisplayFunDesc(false);
+      console.log(mode);
     } else if (mode === 'fan') {
       setDisplayFanDesc(true);
       setDisplayFriendDesc(false);
       setDisplayFunDesc(false);
+      console.log(mode);
     } else if (mode === 'fun') {
       setDisplayFunDesc(true);
       setDisplayFriendDesc(false);
       setDisplayFanDesc(false);
+      console.log(mode);
     }
   };
 
@@ -28,15 +36,41 @@ const Modes = () => {
     setDisplayFunDesc(false);
   };
 
+  const navigate = useNavigate();
+  const handleFormSubmit = async (mode) => {
+        
+        const dataTosend = {mode};
+        
+        const response = await fetch(`http://localhost:5001/api/user/regis/complete/${userID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataTosend),
+        });
+
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+            // Handle success
+            console.log(data.message);
+            navigate(`/UserSignin`);
+        } else {
+            // Handle error   
+            console.log('dd',dataTosend);
+            console.error('Insert failed:', data.message);
+        }
+    };
   return (
     <div className="grid grid-cols-3 gap-4">
       <div className="relative">
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
           onMouseEnter={() => handleMouseEnter('friend')}
-          onMouseLeave={handleMouseLeave}
+          onMouseLeave={handleMouseLeave} 
+          onClick={() => handleFormSubmit('friend')}
         >
-          <img src={oui} alt="oui1" className="w-full h-full rounded-lg" />
+          <img src={Friend} alt="Friend" className="w-full h-full rounded-lg" />
           {displayFriendDesc && (
             <label
               htmlFor=""
@@ -50,11 +84,11 @@ const Modes = () => {
       </div>
       <div className="relative">
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
           onMouseEnter={() => handleMouseEnter('fan')}
           onMouseLeave={handleMouseLeave}
         >
-          <img src={oui} alt="oui2" className="w-full h-full rounded-lg" />
+          <img src={Fan} alt="Fan" className="w-full h-full rounded-lg" />
           {displayFanDesc && (
             <label
               htmlFor=""
@@ -68,11 +102,12 @@ const Modes = () => {
       </div>
       <div className="relative">
         <div
-          className="w-96 h-104 bg-white border border-amber-400 rounded-lg p-4 box-border shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
+          className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-200"
           onMouseEnter={() => handleMouseEnter('fun')}
           onMouseLeave={handleMouseLeave}
+          onClick={() => handleFormSubmit('fun')}
         >
-          <img src={oui} alt="oui3" className="w-full h-full rounded-lg" />
+          <img src={Fun} alt="Fun" className="w-full h-full rounded-lg" />
           {displayFunDesc && (
             <label
               htmlFor=""
