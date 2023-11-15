@@ -118,6 +118,17 @@ const registUser = async (req, res) => {
   const mode = async(req,res) => {
     const {id} = req.params;
     const {mode} = req.body;
+    // if id exists in mode table database delete that row and insert new row
+    try{
+      const [rows] = await pool.query('SELECT * FROM mode WHERE user_ID = ?', [id]);
+      const user = rows[0];
+      if (user) {
+        const [result] = await pool.query('DELETE FROM mode WHERE user_ID = ?', [id]);
+      }
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
     try{
       const [result] = await pool.query('INSERT INTO mode (user_ID, mode_pref) VALUES (?, ?)', [id, mode]);
       res.json({userID: id})
