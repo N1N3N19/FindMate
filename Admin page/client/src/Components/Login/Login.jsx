@@ -4,35 +4,28 @@ import { Link } from 'react-router-dom';
 import findmateLogo from './findmateLogo.png';
 import { FaUserShield } from 'react-icons/fa';
 import { BsFillShieldLockFill } from 'react-icons/Bs';
-
+import Axios from 'axios';
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState('');
+    const [loginusername, setloginusername] = useState('');
+    const [loginpassword, setloginpassword] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const loginUser = (event) => {
+        event.preventDefault();
+      
+        Axios.post('http://localhost:3003/login', {
+          loginusername: loginusername,
+          loginpassword: loginpassword,
+        }).then((response) => {
+          if (response.data.length > 0) {
+            console.log('Login successful!');
+            // Redirect to the dashboard page
+            window.location.href = '/dashboard';
+          } else {
+            console.log(response.data.message);
+          }
+        })
+      }
 
-        // Basic client-side validation
-        if (!email || !password) {
-            setLoginError('Please enter both email and password.');
-            return;
-        }
-
-        // Simulate asynchronous login process (replace with actual API call)
-        try {
-            // Here you would make a request to your backend for authentication
-            // For simplicity, we'll just simulate a successful login after a short delay
-            // Replace the setTimeout block with your actual authentication logic
-            setTimeout(() => {
-                console.log('Login successful!');
-                // Redirect to the dashboard or perform necessary actions after successful login
-            }, 1000);
-        } catch (error) {
-            console.error('Login failed:', error.message);
-            setLoginError('Invalid email or password. Please try again.');
-        }
-    };
 
     return (
         <div className='loginPage flex'>
@@ -42,18 +35,17 @@ const Login = () => {
                         <img src={findmateLogo} alt="Logo img" />
                         <h3>Welcome Back!</h3>
                     </div>
-                    <form onSubmit={handleSubmit} className='form grid'>
-                        <span>{loginError}</span>
+                    <form className='form grid'>
                         <div className='inputDiv'>
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="text">Username</label>
                             <div className="input flex">
                                 <FaUserShield className='icon' />
                                 <input
-                                    type='email'
-                                    id='email'
-                                    placeholder='Enter Email'
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type='text'
+                                    id='username'
+                                    placeholder='Enter username'
+                                    value={loginusername}
+                                    onChange={(e) => setloginusername(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -65,17 +57,17 @@ const Login = () => {
                                     type='password'
                                     id='password'
                                     placeholder='Enter Password'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={loginpassword}
+                                    onChange={(e) => setloginpassword(e.target.value)}
                                 />
                             </div>
                         </div>
-                        <button type='submit' className='btn flex'>
+                        <button type='submit' className='btn flex' onClick={loginUser}>
                             <span>Login </span>
                         </button>
                         <Link to='/sidebar'>Dashboard</Link>
                         <span className='forgotPassword'>
-                            Forgot your password? <Link to='/forgot-password'>Click here</Link>
+                            Don't have an account? <Link to='/register'>Click here</Link>
                         </span>
                     </form>
                 </div>

@@ -1,13 +1,25 @@
-import React from 'react'
+import React from 'react';
+import { BarChart } from '@mui/x-charts/BarChart';
 
+const Analytics = () => {
+  return (
+    <BarChart
+      xAxis={[
+        {
+          id: 'barCategories',
+          data: ['bar A', 'bar B', 'bar C'],
+          scaleType: 'band',
+        },
+      ]}
+      series={[
+        {
+          data: [2, 5, 3],
+        },
+      ]}
+      width={500}
+      height={300}
+    />
+  );
+};
 
-
-
-const Analytics = () =>{
-    return(
-        <div>
-           This is Analytics
-        </div>
-    )
-}
-export default Analytics
+export default Analytics;
