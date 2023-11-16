@@ -53,7 +53,7 @@ const Modes = () => {
         console.log(data);
         if (response.ok) {
             // Handle success
-            console.log(data.message);
+           
             navigate(`/UserSignin`);
         } else {
             // Handle error   
@@ -87,6 +87,7 @@ const Modes = () => {
           className="w-96 h-104 shadow-lg backdrop-filter backdrop-blur-lg transition-all duration-300"
           onMouseEnter={() => handleMouseEnter('fan')}
           onMouseLeave={handleMouseLeave}
+          onClick={() => handleFormSubmit('fan')}
         >
           <img src={Fan} alt="Fan" className="w-full h-full rounded-lg" />
           {displayFanDesc && (
