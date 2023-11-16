@@ -4,6 +4,7 @@ import UserSignin from './UserSignin'
 import UserRegister from './UserRegister'
 import UserAgreement from './UserAgreement'
 import UserMode from './UserMode'
+import UserFinishPF from './UserFinishPF'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='UserRegister/:userID' element={<UserRegister/>}></Route>
         <Route path='UserAgreement' element={<UserAgreement/>}></Route>
         <Route path='UserMode/:userID' element={<UserMode/>}></Route>
+        <Route path='UserFinishPF/:userID' element={<UserFinishPF/>}></Route>
         </Routes>
     </div>
   )

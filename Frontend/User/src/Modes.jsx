@@ -92,7 +92,7 @@ const Modes = () => {
           {displayFanDesc && (
             <label
               htmlFor=""
-              className="absolute rounded-lg w-full h-full bottom-0 left-1/2 transform -translate-x-1/2 transition-all duration-300 text-center bg-opacity-70 bg-gray-800 text-white text-sm font-sans cursor-pointer flex items-center justify-center"
+              className="absolute rounded-lg w-full h-full bottom-0 p-2 left-1/2 transform -translate-x-1/2 transition-all duration-300 text-center bg-opacity-70 bg-gray-800 text-white text-sm font-sans cursor-pointer flex items-center justify-center"
             >
               Find your finest partner from FAN mode!
             </label>
@@ -111,8 +111,9 @@ const Modes = () => {
           {displayFunDesc && (
             <label
               htmlFor=""
-              className="absolute rounded-lg w-full h-full bottom-0 left-1/2 transform -translate-x-1/2 transition-all duration-300 text-center bg-opacity-70 bg-gray-800 text-white text-sm font-sans cursor-pointer flex items-center justify-center"
+              className="absolute rounded-lg w-full h-full p-3 bottom-0 left-1/2 transform -translate-x-1/2 transition-all duration-300 text-center bg-opacity-70 bg-gray-800 text-white text-sm font-sans cursor-pointer flex items-center justify-center"
             >
+              Are you looking for a mate to have some fun for a night?
               Find your friesty flirts from FUN mode!
             </label>
           )}

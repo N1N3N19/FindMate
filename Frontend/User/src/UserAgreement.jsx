@@ -3,7 +3,7 @@ import '../src/UserPlaceholder.css'
 
 const UserAgreement = () => {
     return (
-        <div>
+        <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
           <div> 
             <h1 className="text-center text-3xl pb-2"><strong>Terms & Conditions and Privacy Policy</strong></h1>
           </div>
