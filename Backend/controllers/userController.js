@@ -25,6 +25,7 @@ const pool = mysql.createPool({
 const checkUser = async (req, res) => {
   try {
     const { email, password, cfPassword} = req.body;
+    const sanitizedEmail = email.toLowerCase();
     
     if (!email || !password || !cfPassword ) {
       res.status(400).json({ message: "Some required information is missing" });
@@ -36,17 +37,17 @@ const checkUser = async (req, res) => {
       return;
     }
     //TO DO: if user email already exists in database return error
-    const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
+    const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [sanitizedEmail]);
     const user = rows[0];
     if (user) {
       res.status(400).json({ message: "User already exists" });
       return;
     }
-
+    
     
 
     const registerQuery = 'INSERT INTO register (email, password, confirm_password) VALUES (?, ?, ?)';
-    const userProfileQuery = 'INSERT INTO user_profile (register_ID, email, password) VALUES (?, ?, ?)';
+    const userProfileQuery = 'INSERT INTO user_profile (register_ID, email, password) VALUES ( ?, ?, ?)';
     //hash password
     const hashPassword = await bcrypt.hash(password, 10);
     
@@ -54,18 +55,19 @@ const checkUser = async (req, res) => {
     await connection.beginTransaction();
 
     try {
-      const registerResult = await connection.query(registerQuery, [email, hashPassword, hashPassword]);
+      const registerResult = await connection.query(registerQuery, [sanitizedEmail, hashPassword, hashPassword]);
       const registerID = registerResult[0].insertId;
 
-      const userProfileResult = await connection.query(userProfileQuery, [registerID, email, hashPassword]);
+      const userProfileResult = await connection.query(userProfileQuery, [ registerID, sanitizedEmail, hashPassword]);
 
       await connection.commit();
 
       //return user id from database table user_profile
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [sanitizedEmail]);
       const user = rows[0];
-      res.json( {userID: user.user_ID});
-      res.status(201).json({ message: "User registered and profile created successfully!" });
+    
+      const token = jwt.sign({ userProfileResult, sanitizedEmail }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
+      res.status(201).json({token, userID: user.user_ID, email: sanitizedEmail, message: "User registered and profile created successfully!" });
       
       
     } catch (error) {
@@ -84,28 +86,28 @@ const checkUser = async (req, res) => {
 
 
 //@desc Regis a user
-//@route POST /api/user/Regis
+//@route PATCH /api/user/Regis
 //@access public
 const registUser = async (req, res) => {
-  const id = req.params.id;
+ 
     try {
       
-     
       
-      const { Name, Gender, DOB, avatar  } = req.body;
-      if (!Name || !DOB) {
+      const { userID, Name, Gender, DOB, avatar  } = req.body;
+      
+      if (!Name || !DOB || !avatar || !Gender) {
         res.status(400).json({ message: "Some required information is missing" });
         return;
       }
       strDOB = DOB.toString();
        const [result] = await pool.query(
         'UPDATE user_profile SET Name = ?, Gender = ?, Profile_pic = ?, DOB = ? WHERE user_ID = ?',
-         [Name, Gender, avatar, DOB, id]
+         [Name, Gender, avatar, DOB, userID]
        );
        
      
 
-      res.status(201).json({ userID: id, message: "New user successfully created!" });
+      res.status(201).json({  message: "New user successfully created!" });
     } catch (error) {
       console.error('Error creating user:', error);
       res.status(500).send();
@@ -116,22 +118,22 @@ const registUser = async (req, res) => {
   //@route POST /api/user/mode
   //@acccess private
   const mode = async(req,res) => {
-    const {id} = req.params;
-    const {mode} = req.body;
+    
+    const {userID, mode} = req.body;
     // if id exists in mode table database delete that row and insert new row
     try{
-      const [rows] = await pool.query('SELECT * FROM mode WHERE user_ID = ?', [id]);
+      const [rows] = await pool.query('SELECT * FROM mode WHERE user_ID = ?', [userID]);
       const user = rows[0];
       if (user) {
-        const [result] = await pool.query('DELETE FROM mode WHERE user_ID = ?', [id]);
+        const [result] = await pool.query('DELETE FROM mode WHERE user_ID = ?', [userID]);
       }
     } catch(error){
       console.error('Login error:', error);
       res.status(500).json({ message: 'Server error' });
     }
     try{
-      const [result] = await pool.query('INSERT INTO mode (user_ID, mode_pref) VALUES (?, ?)', [id, mode]);
-      res.json({userID: id})
+      const [result] = await pool.query('INSERT INTO mode (user_ID, mode_pref) VALUES (?, ?)', [userID, mode]);
+      res.json({userID})
     } catch(error){
       console.error('Login error:', error);
       res.status(500).json({ message: 'Server error' });
@@ -139,18 +141,18 @@ const registUser = async (req, res) => {
   };
 
   //@desc get all user
-  //@route GET /api/user/feed
+  //@route GET /api/user
   //@access private
   const user = async(req,res) => {
-    const {id} = req.params;
-    try{
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE id != ?', [id]);
+    const userID = req.query.userId;
+
+    try {
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_id = ?', [userID]);
       const user = rows[0];
-      
-      res.status(200).json({ user });
-    }
-    catch(error){
-      console.error('Login error:', error);
+  
+      res.send(user);
+    } catch (error) {
+      console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
     }
   };
@@ -233,8 +235,8 @@ const loginUser = async(req,res) => {
       }
     }
       
-    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
-    res.status(200).json({ token });
+    const token = jwt.sign({ rows, email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
+    res.status(201).json({ token, userID: user.user_ID, email: email, message: "User logged in successfully!" });
    
 
   } catch(error){

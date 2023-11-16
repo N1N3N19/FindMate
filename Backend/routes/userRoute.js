@@ -4,7 +4,7 @@ const{checkUser,registUser,loginUser,currentUser,feedUser,mode} = require("../co
 const validateToken = require("../middleware/validateTokenHandler");
 
 router.route("/regis").post(checkUser);
-router.route("/regis/complete/:id").patch(registUser).post(mode);
+router.route("/regis/complete/").patch(registUser).post(mode);
 router.get("/current", validateToken,  currentUser);
 router.route("/login").post(loginUser);
 router.route("/feed").get(feedUser);

@@ -6,21 +6,23 @@ import '../src/UserPlaceholder.css'
 import '../src/UserCustom.css'
 import Avatar from "./Avatar";
 import { useNavigate } from 'react-router-dom';
-
+import { useCookies } from 'react-cookie';
 
 const UserRegister = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const [Name, setName] = useState('');
     const [Gender, setGender] = useState('');
     const [DOB, setDob] = useState('');
     let [avatar, setAvatar] = useState('');
 
     //get userID from userRegister router
-    const { userID } = useParams();
+    const  userID  = cookies.userID;
 
     const handleName = (e) => {
         e.preventDefault();
         setName(e.target.value);
         console.log("name:" + e.target.value);
+        
     };
     
     const handleGender = (e) => {
@@ -40,9 +42,9 @@ const UserRegister = () => {
     
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const dataTosend = { Name, Gender, DOB, avatar};
+        const dataTosend = { userID, Name, Gender, DOB, avatar};
 
-        const response = await fetch(`http://localhost:5001/api/user/regis/complete/${userID}`, {
+        const response = await fetch(`http://localhost:5001/api/user/regis/complete/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ const UserRegister = () => {
             // Handle success
             
             console.log(data.message);
-            navigate(`/UserMode/${userID}`);
+            navigate(`/UserMode`);
         } else {
             // Handle error
             

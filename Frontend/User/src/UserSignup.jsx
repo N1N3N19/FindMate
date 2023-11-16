@@ -5,12 +5,15 @@ import {AiOutlineUnlock} from "react-icons/ai";
 import logo from '../src/assets/logo.png';
 import '../src/UserPlaceholder.css'
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+
 
 
 const UserSignup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cfPassword, setCfPassword] = useState('');
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
     const handleEmailInput = (e) => {
         e.preventDefault();
@@ -53,14 +56,17 @@ const UserSignup = () => {
         
     
         let data = await response.json();
-       console.log(data);
+       
     
         if (response.ok) {
-            // Handle success console.log("sometinh" + data);
-            let userID = data.userID; 
+            // Handle success console.log("something" + data);
+            
+            setCookie('userID', data.userID);
+            setCookie('email', data.email);
+            setCookie('AuthToken', data.token);
             console.log('API Response:', data);
-            console.log(data.userID);
-            navigate(`/UserRegister/${userID}`);
+           
+            navigate(`/UserRegister/`);
         } else {
             // Handle error
             console.error('Sign-up failed:', data.message);

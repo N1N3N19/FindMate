@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Friend from '../src/assets/Mode_Friend.png';
 import Fan from '../src/assets/Mode_Fan.png';
 import Fun from '../src/assets/Mode_Fun.png';
-import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 const Modes = () => {
-  const { userID } = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const [displayFriendDesc, setDisplayFriendDesc] = useState(false);
   const [displayFanDesc, setDisplayFanDesc] = useState(false);
@@ -35,13 +35,13 @@ const Modes = () => {
     setDisplayFanDesc(false);
     setDisplayFunDesc(false);
   };
-
+  const userID = cookies.userID;
   const navigate = useNavigate();
   const handleFormSubmit = async (mode) => {
         
-        const dataTosend = {mode};
+        const dataTosend = {userID, mode};
         
-        const response = await fetch(`http://localhost:5001/api/user/regis/complete/${userID}`, {
+        const response = await fetch(`http://localhost:5001/api/user/regis/complete/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

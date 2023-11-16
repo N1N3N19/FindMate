@@ -5,6 +5,8 @@ import UserRegister from './UserRegister'
 import UserAgreement from './UserAgreement'
 import UserMode from './UserMode'
 import UserFinishPF from './UserFinishPF'
+import ChatContainer from './Chat/ChatContainer'
+import Home from './Home'
 
 function App() {
 
@@ -15,9 +17,11 @@ function App() {
         <Route path='/' element={<UserSignin/>}></Route>
         <Route path='UserSignin' element={<UserSignin/>}></Route> 
         <Route path='UserSignup' element={<UserSignup/>}></Route> 
-        <Route path='UserRegister/:userID' element={<UserRegister/>}></Route>
+        <Route path='UserRegister' element={<UserRegister/>}></Route>
         <Route path='UserAgreement' element={<UserAgreement/>}></Route>
-        <Route path='UserMode/:userID' element={<UserMode/>}></Route>
+        <Route path='Home' element={<Home/>}></Route>
+        <Route path='Chat' element={<ChatContainer/>}></Route>
+        <Route path='UserMode' element={<UserMode/>}></Route>
         <Route path='UserFinishPF/:userID' element={<UserFinishPF/>}></Route>
         </Routes>
     </div>
