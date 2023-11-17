@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {BsPersonVcard, BsGenderAmbiguous} from "react-icons/bs";
 import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'

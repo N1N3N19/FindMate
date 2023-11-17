@@ -22,7 +22,7 @@ function App() {
         <Route path='Home' element={<Home/>}></Route>
         <Route path='Chat' element={<ChatContainer/>}></Route>
         <Route path='UserMode' element={<UserMode/>}></Route>
-        <Route path='UserFinishPF/:userID' element={<UserFinishPF/>}></Route>
+        <Route path='UserFinishPF' element={<UserFinishPF/>}></Route>
         </Routes>
     </div>
   )
