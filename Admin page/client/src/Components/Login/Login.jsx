@@ -8,9 +8,15 @@ import Axios from 'axios';
 const Login = () => {
     const [loginusername, setloginusername] = useState('');
     const [loginpassword, setloginpassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const loginUser = (event) => {
         event.preventDefault();
+      
+        if (!loginusername || !loginpassword) {
+          setErrorMessage('Please fill in both fields.');
+          return;
+        }
       
         Axios.post('http://localhost:3003/login', {
           loginusername: loginusername,
@@ -22,6 +28,7 @@ const Login = () => {
             window.location.href = '/dashboard';
           } else {
             console.log(response.data.message);
+            setErrorMessage('Wrong username/password combination!');
           }
         })
       }
@@ -34,8 +41,11 @@ const Login = () => {
                     <div className="headerDiv">
                         <img src={findmateLogo} alt="Logo img" />
                         <h3>Welcome Back!</h3>
+                        {errorMessage && <p>{errorMessage}</p>}
+                       
                     </div>
                     <form className='form grid'>
+                   
                         <div className='inputDiv'>
                             <label htmlFor="text">Username</label>
                             <div className="input flex">
@@ -62,14 +72,13 @@ const Login = () => {
                                 />
                             </div>
                         </div>
-                        <button type='submit' className='btn flex' onClick={loginUser}>
+                    </form>
+                    <button type='submit' className='btn flex' onClick={loginUser}>
                             <span>Login </span>
                         </button>
-                        <Link to='/sidebar'>Dashboard</Link>
                         <span className='forgotPassword'>
                             Don't have an account? <Link to='/register'>Click here</Link>
                         </span>
-                    </form>
                 </div>
             </div>
         </div>

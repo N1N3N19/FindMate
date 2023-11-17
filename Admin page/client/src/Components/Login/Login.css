@@ -88,7 +88,7 @@ h3{
 
             
 .inputDiv{
-    gap: 5rem;
+    gap: 10rem;
  }        
 
 .form{
@@ -105,12 +105,13 @@ input{
 label{
     color: black;
     font-weight: 400;
-    padding: .5 rem 0;
+    padding: .5 rem;
     display: block;
 }
 
 .btn{
-    padding: .8rem;
+    margin-top: 50px; 
+    padding: .5rem 1rem;
     background: orange;
     border-radius: 10px;
     color: white;
@@ -118,10 +119,9 @@ label{
     margin: auto;
     justify-content: center;
     font-size: 16px;
-    width: 100%;
+    width: 200px;
     gap: .5rem;
     transition: .3s ease;
-
 }
 
 .forgotPassword{

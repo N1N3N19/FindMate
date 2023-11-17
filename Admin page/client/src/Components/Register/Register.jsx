@@ -9,18 +9,22 @@ import Axios from 'axios'
 const Register = () =>{
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
-
-
+    const [errorMessage, setErrorMessage] = useState('');
 
     const createUser = () => {
-        Axios.post('http://localhost:3003/register', {
-            username: username,
-            password: password,
-        }).then(() => {
-            console.log('User has been created');
+      if (!username || !password) {
+        setErrorMessage('Please fill in both fields.');
+        return;
+      }
     
-    })
-}
+      Axios.post('http://localhost:3003/register', {
+        username: username,
+        password: password,
+      }).then(() => {
+        console.log('User has been created');
+        window.location.href = '/login';
+      })
+    }
     return(
         <div className='loginPage flex'>
         <div className="container flex">
@@ -28,12 +32,14 @@ const Register = () =>{
         <div className="formDiv flex">
             <div className="headerDiv">
                 <img src={findmateLogo} alt="Logo img" />
+                <h3>Register here!</h3>
+                {errorMessage && <p>{errorMessage}</p>}
+                    
             
                 </div>  
 
                 <form action="" className='form grid'>
-                    <span>Register here</span>
-                    
+               
                     
                         <div className='inputDiv'>
                         <label htmlFor="username">Username</label>
@@ -50,13 +56,14 @@ const Register = () =>{
                             <input type='password' id='password' placeholder='Enter Password' onChange={(event)=>{setPassword(event.target.value)}}/>
                         </div>
                         </div>
+                    
+              
+                    
+                    </form>    
                     <button type='submit' className='btn flex' onClick={createUser}>
                         <span>Register </span>
                         
                     </button>
-              
-                    
-                    </form>    
         </div>
         </div>
         </div>

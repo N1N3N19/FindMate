@@ -1,26 +1,32 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 
-const rows = [
-  { id: 1, Feedback: 'Hi test test'},
-
-];
-
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'Feedback',
-    headerName: 'Feedback',
-    width: 1500,
-    editable: true,
-  },
+  { field: 'feedback_ID', headerName: 'Feedback ID', width: 150 },
+  { field: 'user_ID', headerName: 'User ID', width: 150 },
+  { field: 'report_ID', headerName: 'Report ID', width: 150 },
+  { field: 'detail', headerName: 'Detail', width: 500 },
+  { field: 'add_photo', headerName: 'Photo', width: 200 },
 ];
 
 export default function Feedback() {
+  const [feedbackData, setFeedbackData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3003/feedback')
+      .then(response => {
+        setFeedbackData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
+
   return (
     <div>
       <DataGrid
-        rows={rows}
+        rows={feedbackData}
         columns={columns}
         initialState={{
           pagination: {

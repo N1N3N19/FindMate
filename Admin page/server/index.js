@@ -45,12 +45,35 @@ app.post('/login', (req, res) => {
   db.query(query, [loginusername, loginpassword], (err, result) => {
     if (err) {
       res.send({ err: err });
-    } 
-
-    if (result.length > 0) {
+    } else if (result.length > 0) {
       res.send(result);
     } else {
       res.send({ message: "Wrong username/password combination!" });
+    }
+  });
+});
+
+app.get('/users', (req, res) => {
+  const query = 'SELECT * FROM user_profile';
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get('/users/:id', (req, res) => {
+  const query = 'SELECT * FROM user_profile WHERE id = ?';
+  const id = req.params.id;
+
+  db.query(query, id, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.send(result);
     }
   });
 });
