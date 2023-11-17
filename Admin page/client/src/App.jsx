@@ -7,7 +7,6 @@ import Analytics from './Components/Dashboard/Analytics/Analytics';
 import Users from './Components/User/Users';
 import Feedback from './Components/Dashboard/Feedback/Feedback';
 import Sidebar from './Components/Dashboard/Sidebar/Sidebar';
-import DataTable from './Components/User/DataTable';
 
 function App() {
   return (
