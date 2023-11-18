@@ -104,7 +104,7 @@ const UserRegister = () => {
                 <button className="w-full wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
                 </form>
             </div>
-                <div className="absolute my-2 text-center">
+                <div className="absolute my-4 bottom-1 pb-10 text-center">
                     <span>Wolfgang: Triple-N © 2023</span>
                 </div>
         </div>
