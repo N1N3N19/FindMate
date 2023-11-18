@@ -49,7 +49,7 @@ const Signin = () => {
 
     return (
         <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
-            <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">
+            <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200 ">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img src={logo} alt="Logo" style={{ width: '150px', height: 'auto' }} />
                 </div>
@@ -69,9 +69,12 @@ const Signin = () => {
                 <button className="w-full mb-4 text-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>NEXT</b></button>
                 
                 <div className="relative my-2 text-center">
-                <span className="text-neutral-500">New to <i>FindMate</i>? <Link className="text-neutral-500 hover:text-orange-600" to='/UserSignup' ><u>Create an account</u></Link></span>
+                <span className="text-neutral-500">New to <i>FindMate</i>? <Link className="text-neutral-500 hover:text-orange-600" to='/Signup' ><u>Create an account</u></Link></span>
                 </div>
                 </form>
+            </div>
+            <div className="absolute my-4 bottom-20 pb-12 text-center">
+                <span>Wolfgang: Triple-N © 2023</span>
             </div>
         </div>
     );
