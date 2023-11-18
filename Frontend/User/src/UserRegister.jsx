@@ -58,7 +58,7 @@ const UserRegister = () => {
             // Handle success
             
             console.log(data.message);
-            navigate(`/UserMode`);
+            navigate(`/Mode`);
         } else {
             // Handle error
             
