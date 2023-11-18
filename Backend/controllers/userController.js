@@ -140,6 +140,22 @@ const registUser = async (req, res) => {
     }
   };
 
+  //@desc update about user
+  //@route patch /api/user/about
+  //@access private
+  const about = async(req,res) => {
+    const {userID, About_user} = req.body;
+
+    try{
+      const [result] = await pool.query('UPDATE user_profile SET About_user = ? WHERE user_ID = ?', [About_user, userID]);
+      res.json({userID})
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+
   //@desc get all user
   //@route GET /api/user
   //@access private
@@ -272,7 +288,7 @@ const loginUser = async(req,res) => {
     }
   
   }
-module.exports = {checkUser,registUser,loginUser,currentUser, feedUser, mode}
+module.exports = {checkUser,registUser,loginUser,currentUser, feedUser, mode, about}
 
 //@desc current user info
 //@route POST /api/user/current
