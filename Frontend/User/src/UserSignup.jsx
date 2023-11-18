@@ -66,7 +66,7 @@ const UserSignup = () => {
             setCookie('AuthToken', data.token);
             console.log('API Response:', data);
            
-            navigate(`/UserRegister/`);
+            navigate(`/Register/`);
         } else {
             // Handle error
             console.error('Sign-up failed:', data.message);
