@@ -31,8 +31,8 @@ const UserFinishPF = () => {
     console.log("About:" + e.target.value);
   }
   return (
-        <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
-          <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200 bg-cover" style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
+        <div className='text-white h-[100vh] flex flex-col justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
+          <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200 ">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <img src={logo2} alt="Logo" style={{ width: '75px', height: 'auto' }} />
                 </div>
@@ -40,7 +40,11 @@ const UserFinishPF = () => {
                 <p className="text-center text-xs text-neutral-500 font-semibold" >Fill the remaining data below to finsish your profile</p>
             <div className="relative my-4">
               <label className="text-lg text-gray-500 py-2.5 pl-2"><b>About you</b></label>
-              <input type="text" className="pb-10 pl-3 pt-3 text-sm text-neutral-500 bg-neutral-300 rounded-lg w-full focus:outline-none peer" placeholder="This is your bio..." onChange={handleAbout}></input>
+              <textarea
+            className="pb-10 pl-3 pt-3 text-sm text-neutral-500 bg-neutral-300 rounded-lg w-full focus:outline-none peer resize-none"
+            placeholder="This is your bio..."
+            onChange={handleAbout}
+          ></textarea>
             </div>
             <div className="relative my-4">
               <label className="text-lg text-gray-500 py-2.5 pl-2"><b>Interested in...</b></label>
@@ -49,7 +53,7 @@ const UserFinishPF = () => {
                   <div className="flex space-x-0.5">
                     
                     <input type="radio" id="basketball" name="tabs" className="absolute appearance-none" onClick={() => handleClick('basketball')} checked={selectedButtons.includes('basketball')} />
-                      <label for="basketball" className = {selectedButtons.includes('basketball') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Basketball</label>
+                      <label for="basketball" className = {selectedButtons.includes('basketball') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-orange-600 hover:bg-amber-400 hover:text-white"}>Basketball</label>
                     <input type="radio" id="football" name="tabs" className="absolute appearance-none" onClick={() => handleClick('football') }checked={selectedButtons.includes('football')} />
                       <label for="football" className= {selectedButtons.includes('football') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Football</label>
                     <input type="radio" id="volleyball" name="tabs" className="absolute appearance-none" onClick={() => handleClick('volleyball')} checked={selectedButtons.includes('volleyball')}/>

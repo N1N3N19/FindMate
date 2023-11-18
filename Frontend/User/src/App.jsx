@@ -7,6 +7,7 @@ import UserMode from './UserMode'
 import UserFinishPF from './UserFinishPF'
 import ChatContainer from './Chat/ChatContainer'
 import Home from './Home'
+import TerminateMate from './TerminateMate'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='Agreement' element={<UserAgreement/>}></Route>
         <Route path='Home' element={<Home/>}></Route>
         <Route path='Chat' element={<ChatContainer/>}></Route>
+        <Route path='TerminateMate' element={<TerminateMate/>}></Route>
         <Route path='Mode' element={<UserMode/>}></Route>
         <Route path='FinishPF' element={<UserFinishPF/>}></Route>
         </Routes>
