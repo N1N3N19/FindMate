@@ -65,6 +65,8 @@ const UserRegister = () => {
             console.error('Insert failed:', data.message);
         }
     };
+
+    const [isChecked, setIsChecked] = useState(false);
     
     return (
         <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
@@ -98,7 +100,7 @@ const UserRegister = () => {
                     <input type="date" className="rounded-full w-full py-2.5 pl-3 pr-4 px-0 mt-1 text-sm text-gray-400 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer custom-calender" placeholder="" onChange={handleDob}/>
                 </div>
                 <div>
-                    <input type="checkbox" id="checkbox" className="relative my-1 mx-3.5 right-2 top-1.5"></input>
+                    <input type="checkbox" id="checkbox" className="relative my-1 mx-3.5 right-2 top-1.5" ></input>
                     <label htmlFor="checkbox" className="flex items-start pl-2 left-2.5 absolute scale-75 w-full text-neutral-500" style={{top: '610px'}}>I agree to the  <Link to="/Agreement" target="_blank" className="ml-1 hover:text-orange-600"><u>Terms & Conditions and Privacy Policy.</u></Link></label>
                 </div>
                 <button className="w-full wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
