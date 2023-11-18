@@ -71,7 +71,32 @@ app.get('/users/:id', (req, res) => {
 
   db.query(query, id, (err, result) => {
     if (err) {
+      res.status(500).send({ error: err });               
+    } else {
+      res.send(result);
+    }
+  });
+});   
+
+app.get('/feedback', (req, res) => {
+  const query = 'SELECT * FROM feedback';
+
+  db.query(query, (err, result) => {
+    if (err) {
       res.status(500).send({ error: err });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get('/feedback/:id', (req, res) => {
+  const query = 'SELECT * FROM feedback WHERE id = ?';
+  const id = req.params.id;
+
+  db.query(query, id, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });               
     } else {
       res.send(result);
     }

@@ -1,44 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-
-const columns = [
-  { field: 'feedback_ID', headerName: 'Feedback ID', width: 150 },
-  { field: 'user_ID', headerName: 'User ID', width: 150 },
-  { field: 'report_ID', headerName: 'Report ID', width: 150 },
-  { field: 'detail', headerName: 'Detail', width: 500 },
-  { field: 'add_photo', headerName: 'Photo', width: 200 },
-];
+import Axios from 'axios';
 
 export default function Feedback() {
-  const [feedbackData, setFeedbackData] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3003/feedback')
-      .then(response => {
-        setFeedbackData(response.data);
+    Axios.get('http://localhost:3003/feedback')
+      .then((response) => {
+        console.log(response.data); // Log the response data
+        setRows(response.data.map((feedback, index) => ({ id: index, ...feedback })));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching data: ', error);
       });
   }, []);
 
+  const columns = [
+    { field: 'report_ID', headerName: 'Report_ID', width: 150 },
+    { field: 'detail', headerName: 'Detail', width: 150 },
+    { field: 'add_photo', headerName: 'photo'}
+  ];
+
   return (
-    <div>
-      <DataGrid
-        rows={feedbackData}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid rows={rows} columns={columns} pageSize={5} />
     </div>
   );
 }
