@@ -15,14 +15,14 @@ function App() {
       <Routes>
     
         <Route path='/' element={<UserSignin/>}></Route>
-        <Route path='UserSignin' element={<UserSignin/>}></Route> 
-        <Route path='UserSignup' element={<UserSignup/>}></Route> 
-        <Route path='UserRegister' element={<UserRegister/>}></Route>
-        <Route path='UserAgreement' element={<UserAgreement/>}></Route>
+        <Route path='Signin' element={<UserSignin/>}></Route> 
+        <Route path='Signup' element={<UserSignup/>}></Route> 
+        <Route path='Register' element={<UserRegister/>}></Route>
+        <Route path='Agreement' element={<UserAgreement/>}></Route>
         <Route path='Home' element={<Home/>}></Route>
         <Route path='Chat' element={<ChatContainer/>}></Route>
-        <Route path='UserMode' element={<UserMode/>}></Route>
-        <Route path='UserFinishPF' element={<UserFinishPF/>}></Route>
+        <Route path='Mode' element={<UserMode/>}></Route>
+        <Route path='FinishPF' element={<UserFinishPF/>}></Route>
         </Routes>
     </div>
   )
