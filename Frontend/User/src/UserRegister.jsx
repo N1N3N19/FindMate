@@ -44,7 +44,7 @@ const UserRegister = () => {
         e.preventDefault();
         const dataTosend = { userID, Name, Gender, DOB, avatar};
 
-        const response = await fetch(`http://localhost:5001/api/user/regis/complete/`, {
+        const response = await fetch(`http://localhost:5001/api/user/regis/complete`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,8 +52,9 @@ const UserRegister = () => {
             body: JSON.stringify(dataTosend),
         });
 
+       
         const data = await response.json();
-
+        
         if (response.ok) {
             // Handle success
             

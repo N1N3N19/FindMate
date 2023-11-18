@@ -145,6 +145,7 @@ const registUser = async (req, res) => {
   //@access private
   const about = async(req,res) => {
     const {userID, About_user} = req.body;
+    console.log(About_user);
 
     try{
       const [result] = await pool.query('UPDATE user_profile SET About_user = ? WHERE user_ID = ?', [About_user, userID]);
@@ -155,65 +156,86 @@ const registUser = async (req, res) => {
     }
   };
 
-
+  //@desc insert interested of user in database
+  //@route post /api/user/interested
+  //@access private
+  const interested = async(req,res) => {
+    const {userID, selectedButtons} = req.body;
+    try{
+      for (let i = 0; i < selectedButtons.length; i++) {
+        const [id] = await pool.query(
+          'SELECT ID FROM interested WHERE i_name = ?',
+          [selectedButtons[i]]
+        );
+        const IID = id[0].ID;
+        const [result] = await pool.query(
+          'INSERT INTO user_interest(UID, IID) VALUES(?, ?)', 
+          [userID, IID]);
+      }
+    } catch(error){
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
   //@desc get all user
   //@route GET /api/user
   //@access private
   const user = async(req,res) => {
-    const userID = req.query.userId;
-
+    const {userID} = req.body;
+    
     try {
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_id = ?', [userID]);
-      const user = rows[0];
-  
-      res.send(user);
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_ID = ?', [userID]);
+      res.status(200).json(rows);
     } catch (error) {
       console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
     }
   };
   
-//@desc get a randomly user to feed
-//@route GET /api/user/feed
+
+//@desc get all other user
+//@route GET /api/user/other
 //@access private
-//TO DO feed user by id from database
-const feedUser = async(req,res) => {
-  const {id} = req.params;
-  const user = req.session.user;
-
-  // Get a random user's profile and fetch content based on their preferences
-  pool.query('SELECT * FROM user_profile ORDER BY RAND() LIMIT 1', (error, result) => {
-    if (error) {
-      res.status(500).send('Error retrieving random user profile');
-    } else {
-      const randomUser = result[0];
-      const feedContent = { userId: randomUser.user_ID, content: [] };
-
-      // Fetch content based on user preferences
-      // if (randomUser.preferences.includes('sports')) {
-      //   pool.query('SELECT * FROM sports_content', (sportError, sportResults) => {
-      //     if (sportError) {
-      //       res.status(500).send('Error fetching sports content');
-      //     } else {
-      //       feedContent.content.push({ sports: sportResults });
-      //     }
-      //   });
-      // }
-
-      // if (randomUser.preferences.includes('movies')) {
-      //   pool.query('SELECT * FROM movies_content', (movieError, movieResults) => {
-      //     if (movieError) {
-      //       res.status(500).send('Error fetching movie content');
-      //     } else {
-      //       feedContent.content.push({ movies: movieResults });
-      //     }
-      //   });
-      // }
-
-      res.json(feedContent);
-    }
-  });
+const otherUser = async(req,res) => {
+  const {userID} = req.body;
+  try {
+    const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_ID != ?', [userID]);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
+
+//@desc swipe right user
+//@route POST /api/user/swipe
+//@access private
+const swipe = async(req,res) => {
+  const {userID, otherID, swipe_state} = req.body;
+  const [rows]  = await pool.query('SELECT * FROM swipe WHERE user_a = ? AND user_b = ?', [otherID, userID]);
+  const state = rows[0]?.swipe_state;
+
+  if (state === undefined){
+    try {
+      const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
+      res.status(200).json(rows);
+    } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  } else if (state === "right"){
+    try { 
+      const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
+      const [rows1] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [userID,otherID]);
+      const [rows2] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [otherID,userID]);
+      
+    } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+};
+
 
 //@desc Login a user
 //@route POST /api/user/login
@@ -288,7 +310,7 @@ const loginUser = async(req,res) => {
     }
   
   }
-module.exports = {checkUser,registUser,loginUser,currentUser, feedUser, mode, about}
+module.exports = {checkUser,registUser,loginUser,currentUser, mode, about, user, otherUser,swipe, interested}
 
 //@desc current user info
 //@route POST /api/user/current
