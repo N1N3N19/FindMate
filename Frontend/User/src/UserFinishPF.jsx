@@ -22,13 +22,20 @@ const UserFinishPF = () => {
     }
   };
   
+ 
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const [About, setAbout] = useState('');
+  const [About_user, setAbout] = useState('');
 
   const handleAbout = (e) => {
     e.preventDefault();
     setAbout(e.target.value);
     console.log("About:" + e.target.value);
+  }
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    const dataTosend = {About_user,selectedButtons};
+    console.log('Data to send:', dataTosend);
   }
   return (
         <div className='text-white h-[100vh] flex flex-col justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
@@ -70,7 +77,7 @@ const UserFinishPF = () => {
                     <input type="radio" id="jazz" name="tabs" className="absolute appearance-none" onClick={() => handleClick('jazz')} checked={selectedButtons.includes('jazz')}/>
                       <label for="jazz" className={selectedButtons.includes('jazz') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Jazz</label>
                     <input type="radio" id="hiphop" name="tabs" className="absolute appearance-none" onClick={() => handleClick('hiphop')} checked={selectedButtons.includes('hiphop')}/>
-                      <label for="hiphop" className={selectedButtons.includes('hiphop') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Hip-hop</label>
+                      <label for="hiphop" className={selectedButtons.includes('hiphop') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-cgienter justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Hip-hop</label>
                     <input type="radio" id="pop" name="tabs" className="absolute appearance-none" onClick={() => handleClick('pop')} checked={selectedButtons.includes('pop')}/>
                       <label for="pop" className={selectedButtons.includes('pop') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Pop</label>
                     <input type="radio" id="country" name="tabs" className="absolute appearance-none" onClick={() => handleClick('country')} checked={selectedButtons.includes('country')}/>
@@ -78,20 +85,20 @@ const UserFinishPF = () => {
                   </div>             
                 <li>Movie</li>
                   <div className="flex space-x-0.5">
-                    <input type="radio" id="romantic" name="tabs" className="absolute appearance-none" />
-                      <label for="romantic" className="bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white">Romantic</label>
-                    <input type="radio" id="horror" name="tabs" className="absolute appearance-none" />
-                      <label for="horror" className="bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white">Horror</label>
-                    <input type="radio" id="comedy" name="tabs" className="absolute appearance-none" />
-                      <label for="comedy" className="bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white">Comedy</label>
-                    <input type="radio" id="action" name="tabs" className="absolute appearance-none" />
-                      <label for="action" className="bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white">Action</label>
-                    <input type="radio" id="scifi" name="tabs" className="absolute appearance-none" />
-                      <label for="scifi" className="bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white">Sci-fi</label>
+                    <input type="radio" id="romantic" name="tabs" className="absolute appearance-none" onClick={() => handleClick('romantic')} checked={selectedButtons.includes('romantic')}/>
+                      <label for="romantic" className={selectedButtons.includes('romantic') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Romantic</label>
+                    <input type="radio" id="horror" name="tabs" className="absolute appearance-none" onClick={() => handleClick('horror')} checked={selectedButtons.includes('horror')}/>
+                      <label for="horror" className={selectedButtons.includes('horror') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Horror</label>
+                    <input type="radio" id="comedy" name="tabs" className="absolute appearance-none" onClick={() => handleClick('comedy')} checked={selectedButtons.includes('comedy')}/>
+                      <label for="comedy" className={selectedButtons.includes('comedy') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Comedy</label>
+                    <input type="radio" id="action" name="tabs" className="absolute appearance-none" onClick={() => handleClick('action')} checked={selectedButtons.includes('action')}/>
+                      <label for="action" className={selectedButtons.includes('action') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Action</label>
+                    <input type="radio" id="scifi" name="tabs" className="absolute appearance-none" onClick={() => handleClick('scifi')} checked={selectedButtons.includes('scifi')}/>
+                      <label for="scifi" className={selectedButtons.includes('scifi') ? "bg-gray-900 text-white cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400" : "bg-neutral-200 text-neutral-400 cursor-pointer w-24 flex items-center justify-center select-none text-xs rounded-full py-1 border border-12 border-neutral-400 hover:bg-gray-900 hover:text-white"}>Sci-fi</label>
                   </div>   
               </ul>
             </div>
-            <button className="w-full wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
+            <button className="w-full wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>NEXT</b></button>
           </div>
           <div className="relative my-2 text-center">
             <span className="text-blue-gray-100">Wolfgang: Triple-N © 2023</span>
