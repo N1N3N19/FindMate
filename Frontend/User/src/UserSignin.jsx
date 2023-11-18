@@ -48,7 +48,7 @@ const Signin = () => {
     }; 
 
     return (
-        <div>
+        <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
             <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img src={logo} alt="Logo" style={{ width: '150px', height: 'auto' }} />
