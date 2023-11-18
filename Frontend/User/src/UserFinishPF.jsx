@@ -7,7 +7,9 @@ const UserFinishPF = () => {
   
   const [isClicked, setIsClicked] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState([]);
-
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [About_user, setAbout] = useState('');
+  const  userID  = cookies.userID;
   const handleClick = (id) => {
     
     if (selectedButtons.includes(id)) {
@@ -23,8 +25,7 @@ const UserFinishPF = () => {
   };
   
  
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  const [About_user, setAbout] = useState('');
+  
 
   const handleAbout = (e) => {
     e.preventDefault();
@@ -32,11 +33,43 @@ const UserFinishPF = () => {
     console.log("About:" + e.target.value);
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
-    const dataTosend = {About_user,selectedButtons};
-    console.log('Data to send:', dataTosend);
+    const dataTosend = {userID, About_user,selectedButtons};
+    
+    const response = await fetch(`http://localhost:5001/api/user/about`, {
+      method: 'PATCH',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataTosend),
+    });
+
+    const response2 = await fetch(`http://localhost:5001/api/user/interested`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataTosend),
+    });
+    const data1 = await response.json();
+    const data2 = await response2.json();
+    
+    if (response.ok) {
+      // Handle success
+      console.log(data1.message);
+      console.log(data2.message);
+      navigate(`/Mode`);
+  } else {
+      // Handle error
+      console.error('Insert failed:', data1.message);
+      console.error('Insert failed:', data2.message);
   }
+
+    
+  }
+
+  
   return (
         <div className='text-white h-[100vh] flex flex-col justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
           <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200 ">
