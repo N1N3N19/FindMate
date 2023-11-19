@@ -34,6 +34,7 @@ const UserRegister = () => {
     //     setGender(e.target.value);
     //     console.log("Gender:" + e.target.value);
     // };
+
   const handleDob = (e) => {
     e.preventDefault();
     setDob(e.target.value);
@@ -66,24 +67,26 @@ const UserRegister = () => {
     }
   };
 
-  const handleGenderChange = (e) => {
-    const selectedValue = e.target.value;
-    if (selectedValue === 'addNew') {
-      // Prompt the user to enter a new option
-      const newOption = prompt('Enter a new gender option:');
-      if (newOption && !genderOptions.includes(newOption)) {
-        // Add the new option to the list
-        setGenderOptions(prevOptions => [...prevOptions, newOption]);
-        setGender(newOption);
-      } else {
-        // Handle invalid input or canceled prompt
-        alert('Invalid input or canceled.');
-        setGender(''); // Set the selected option to nothing
-      }
+const handleGenderChange = (e) => {
+  const selectedValue = e.target.value;
+
+  if (selectedValue === 'addNew') {
+    // Handle adding a new gender option
+    const newOption = prompt('Enter a new gender option:');
+    if (newOption && !genderOptions.includes(newOption)) {
+      // Add the new option to the list
+      setGenderOptions(prevOptions => [...prevOptions, newOption]);
+      setGender(newOption);
     } else {
-      setGender(selectedValue);
+      // Handle invalid input or canceled prompt
+      alert('Invalid input or canceled.');
+      setGender(''); // Set the selected option to nothing
     }
-  };
+  } else {
+    // Handle selecting an existing gender option
+    setGender(selectedValue);
+  }
+};
 
   return (
     <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
@@ -107,14 +110,14 @@ const UserRegister = () => {
             <BsPersonVcard className="absolute top-4 right-4 text-neutral-500 duration-300 peer-focus:text-gray-950" />
           </div>
           <div className="relative my-4">
-            {/* Use a standard input for gender selection */}
             <select id="gender" className="rounded-full w-full py-2.5 pl-3 mt-1 text-sm text-gray-400 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400" value={Gender} onChange={handleGenderChange}>
-              <option value="" disabled>Select your gender</option>
-              {genderOptions.map((option, index) => (
+            <option value="" disabled>Select your gender</option>
+            {genderOptions.map((option, index) => (
                 <option key={index} value={option}>{option}</option>
-              ))}
-              <option value="addNew">Add New</option>
+            ))}
+            <option value="addNew">Add New</option>
             </select>
+
             <IoIosArrowDropdownCircle className="absolute top-4 right-4 text-neutral-500 duration-300 peer-focus:text-gray-950" />
           </div>
           <div className="relative" style={{ bottom: '10px' }}>
