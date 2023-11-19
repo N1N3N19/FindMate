@@ -154,18 +154,18 @@ const UserFinishPF = () => {
       <label className="text-lg text-gray-500 py-2.5 pl-2">
         <b>Show me</b>
       </label>
-      <select
-  className="rounded-full w-full py-2.5 pl-3 mt-1 text-sm text-gray-400 bg-neutral-300 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400"
-  value={preferredGender}
-  onChange={handleGenderChange}
->
-  <option value="" disabled>Select your preferred gender</option>
-  {genderOptions.map((gender, index) => (
-    <option key={index} value={gender}>
-      {gender}
-    </option>
-  ))}
-</select>
+          <select
+              className="rounded-full w-full py-2.5 pl-3 mt-1 text-sm text-neutral-400 bg-neutral-300 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400"
+              value={preferredGender}
+              onChange={handleGenderChange}
+            >
+              <option value="" disabled>Select your preferred gender</option>
+              {genderOptions.map((gender, index) => (
+                <option key={index} value={gender}>
+                  {gender}
+                </option>
+              ))}
+          </select>
     </div>
     </div>
             <button className="w-72 wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>CREATE YOUR PROFILE</b></button>
