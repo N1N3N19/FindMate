@@ -1,24 +1,23 @@
-import ChatHeader from "./chatheader";
-import MatchesDisplay from "./MatchesDisplay";
-import ChatDisplay from "./ChatDisplay";
+import ChatHeader from './ChatHeader'
+import MatchesDisplay from './MatchesDisplay'
+import ChatDisplay from './ChatDisplay'
+import { useState } from 'react'
 
-const ChatContainer = () => {
+const ChatContainer = ({ user }) => {
+    const [ clickedUser, setClickedUser ] = useState(null)
+
     return (
-        <div className='text-white h-[100vh] flex flex-col justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
-            <div className="chat-container"> 
-                <ChatHeader/>
+        <div className="chat-container">
+            <ChatHeader user={user}/>
 
-                <div>
-                    <button className="option">Matches</button>
-                    <button className="option">Messages</button>
-                </div>
-
-                <MatchesDisplay/>
-
-                <ChatDisplay/>
+            <div>
+                <button className="option" onClick={() => setClickedUser(null)}>Matches</button>
+                <button className="option" disabled={!clickedUser}>Chat</button>
             </div>
-        </div>
-    
-)}
 
-export default ChatContainer;
+          
+        </div>
+    )
+}
+
+export default ChatContainer
