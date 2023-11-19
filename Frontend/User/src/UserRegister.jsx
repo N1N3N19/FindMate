@@ -29,6 +29,11 @@ const UserRegister = () => {
     console.log("name:" + e.target.value);
   };
 
+    // const handleGender = (e) => {
+    //     e.preventDefault();
+    //     setGender(e.target.value);
+    //     console.log("Gender:" + e.target.value);
+    // };
   const handleDob = (e) => {
     e.preventDefault();
     setDob(e.target.value);
