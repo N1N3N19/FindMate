@@ -7,6 +7,7 @@ import '../src/UserCustom.css'
 import Avatar from "./Avatar";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const UserRegister = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -67,7 +68,6 @@ const UserRegister = () => {
         }
     };
 
-    const [isChecked, setIsChecked] = useState(false);
     
     return (
         <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
@@ -90,6 +90,18 @@ const UserRegister = () => {
                     <input id="input" type="text" className="rounded-full w-full py-2.5 pl-5 px-0 mt-1 text-sm text-neutral-500 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer" placeholder="" onChange={handleName}/>
                     <label htmlFor="" for="input"  className="absolute text-sm text-neutral-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-3 peer-focus:text-amber-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y peer-placeholder-shown:mt-6 peer-placeholder-shown:left-3 peer-focus:scale-75">Display Name...</label>
                     <BsPersonVcard className="absolute top-4 right-4 text-neutral-500 duration-300 peer-focus:text-gray-950"/>
+                </div>
+                <div>
+                    <Dropdown className="d-inline mx-2" autoClose="outside">
+                        <Dropdown.Toggle id="dropdown-autoclose-outside">
+                        Clickable Inside
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
                 <div className="relative my-4">
                     <input type="text" id="input" className="rounded-full w-full py-2.5 pl-5 px-0 mt-1 text-sm text-neutral-500 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer" placeholder="" onChange={handleGender}/>
