@@ -2,6 +2,8 @@ import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
 
 const UserFinishPF = () => {
   

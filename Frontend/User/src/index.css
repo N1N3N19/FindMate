@@ -2,55 +2,110 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/*-------- Global --------*/
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800&display=swap');
+
+
+/*-------- Dashboard  --------*/
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard .swipe-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.swipe {
+  position: absolute;
+}
+
+.dashboard .card-container {
+  width: 400px;
+  height: 650px;
+}
+
+.card {
+  
+  background-color: #8a1f1f;
+  width: 400px;
+  height: 650px;
+
+  border-radius: 30px;
+  background-size: cover;
+  
+  background-size: cover;
+  background-position: center;
+}
+
+.card h3 {
+  margin-top: 0px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.dashboard .swipe-info {
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+}
+
+/*-------- Chat Container --------*/
 .chat-container {
-    background-color: rgb(255, 255, 255);
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    width: 30%;
-    text-align: left;
-    z-index: 1;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+  rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  width: 30%;
+  text-align: left;
+  z-index: 1;
 }
 
 .chat-container .chat-container-header {
-    background: linear-gradient(45deg, rgb(254, 48, 114), rgb(255, 89, 64));
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: linear-gradient(45deg, rgb(254, 48, 114), rgb(255, 89, 64));
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chat-container .option {
-    border: none;
-    background-color: rgb(230, 40, 40);
-    border-bottom: solid 4px rgb(210, 53, 53);
-   
-    font-size: 20px;
-    margin: 2px;
-    padding: 10px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  border-bottom: solid 4px rgb(243, 33, 33);
+  font-size: 20px;
+  margin: 2px;
+  padding: 10px;
 }
 
 .chat-container .option:disabled {
-    border-bottom: solid 4px rgb(187, 187, 187);
+  border-bottom: solid 4px rgb(187, 187, 187);
 }
 
 .chat-container .profile,
 .chat-container .log-out-icon {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  color: rgb(255, 255, 255);
 }
 
 .img-container {
-    height: 30px;
-    width: 30px;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 10px;
 }
 
 .img-container img {
-    width: 100%;
+  width: 100%;
 }
 
 /*-------- Chat Display --------*/
@@ -67,3 +122,4 @@
     display: flex;
     flex-direction: column;
 }
+
