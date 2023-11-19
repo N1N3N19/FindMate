@@ -4,7 +4,7 @@
 
 
 /*-------- Global --------*/
-@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800&display=swap'); */
 
 
 /*-------- Dashboard  --------*/
@@ -49,6 +49,10 @@
   margin: 0;
   padding: 0;
   text-align: center;
+  font-family: 'Readex Pro',sans-serif;
+  /* font bold */
+  font-weight: 600;
+  font-size: 30px;
 }
 
 .dashboard .swipe-info {

@@ -44,7 +44,9 @@ const UserFinishPF = () => {
       
     }
   };
-
+  
+ 
+  const navigate = useNavigate();
 
   const handleAbout = (e) => {
     e.preventDefault();
@@ -78,7 +80,7 @@ const UserFinishPF = () => {
       // Handle success
       console.log(data1.message);
       console.log(data2.message);
-      navigate(`/Mode`);
+      navigate(`/Signin`);
   } else {
       // Handle error
       console.error('Insert failed:', data1.message);

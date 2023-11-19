@@ -89,22 +89,29 @@ const checkUser = async (req, res) => {
 //@route PATCH /api/user/Regis
 //@access public
 const registUser = async (req, res) => {
- 
+  //reduce image quality
+
+
+
     try {
       
-      
       const { userID, Name, Gender, DOB, avatar  } = req.body;
-      
+      console.log(req.body);
       if (!Name || !DOB || !avatar || !Gender) {
         res.status(400).json({ message: "Some required information is missing" });
         return;
       }
       strDOB = DOB.toString();
+      try {
        const [result] = await pool.query(
         'UPDATE user_profile SET Name = ?, Gender = ?, Profile_pic = ?, DOB = ? WHERE user_ID = ?',
          [Name, Gender, avatar, DOB, userID]
        );
-       
+       } catch (error) {
+          console.error('Too big file', error);
+          res.status(500).send();
+        }
+      
      
 
       res.status(201).json({  message: "New user successfully created!" });
@@ -178,20 +185,28 @@ const registUser = async (req, res) => {
     }
   };
   //@desc get all user
-  //@route GET /api/user
+  //@route POST /api/user
   //@access private
   const user = async(req,res) => {
-    const {userID} = req.body;
+    const userID = req.query.params;
     
     try {
       const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_ID = ?', [userID]);
-      res.status(200).json(rows);
+      //return user id from database table user_profile
+      
+     
+      if (rows[0]) {
+        res.status(200).json(rows[0]);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
     } catch (error) {
       console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
     }
-  };
+};
   
+ 
 
 //@desc get all other user
 //@route GET /api/user/other
@@ -249,13 +264,14 @@ const loginUser = async(req,res) => {
     const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [email]);
     const user = rows[0];
     if (!email ||!password ){
-      res.status(400);
+      res.status(400).json({ message: 'Please fill the email and password' });
       throw new Error("All this are mandatory");
     }  
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (email && password){
+    
       if(req.session.authenticated){
         res.json({message: "You are already logged in"}); 
         res.json(req.session);
@@ -268,13 +284,13 @@ const loginUser = async(req,res) => {
         req.session.authenticated = true;
         //store user id in session
         req.session.user = currentUser;
-        
-
+       
       }
     }
       
     const token = jwt.sign({ rows, email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
     res.status(201).json({ token, userID: user.user_ID, email: email, message: "User logged in successfully!" });
+   
    
 
   } catch(error){
@@ -283,34 +299,31 @@ const loginUser = async(req,res) => {
   }
  
 };
-  const currentUser = async(req,res) =>{
-    
-      res.json({message: "current user information"});
   
-  };
 
-
-
-  
-    
     
 
   // TO DO: display user by id from database
 
   const getUserById = async(req,res) =>{
     try{
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE id != ?', [id]);
+      const userID = req.body.userID;
+      const [rows] = await pool.query('SELECT * FROM user_profile WHERE id != ?', [userID]);
       const user = rows[0];
-      
-      res.status(200).json({ user });
-    }
-    catch(error){
-      console.error('Login error:', error);
+     
+      if (user) {
+        res.status(200).json.body(user);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
     }
   
   }
-module.exports = {checkUser,registUser,loginUser,currentUser, mode, about, user, otherUser,swipe, interested}
+module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserById}
+
 
 //@desc current user info
 //@route POST /api/user/current

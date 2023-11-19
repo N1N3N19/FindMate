@@ -54,7 +54,7 @@ const Modes = () => {
         if (response.ok) {
             // Handle success
            
-            navigate(`/UserSignin`);
+            navigate(`/FinishPF`);
         } else {
             // Handle error   
             console.log('dd',dataTosend);

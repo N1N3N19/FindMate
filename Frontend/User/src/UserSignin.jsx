@@ -3,12 +3,12 @@ import {BiUser} from "react-icons/bi";
 import {AiOutlineUnlock} from "react-icons/ai";
 import logo from '../src/assets/logo.png';
 import { useState } from 'react';
-
-
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 const Signin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const [cookies, setCookies] = useCookies(['AuthToken', 'userID', 'user']);
     const handleUsernameInput = (e) => {
         console.info('Username:', e.target.value);
         setUsername(e.target.value);
@@ -19,6 +19,7 @@ const Signin = () => {
         setPassword(e.target.value);
     }
 
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         const dataToSend = { email: username, password: password };
@@ -37,7 +38,11 @@ const Signin = () => {
     
         if (response.ok) {
             // Handle success
-            console.log(data.message);
+            // setCookies('AuthToken', data.token);
+            setCookies('AuthToken', data.token, {path: '/Dashboard'});
+            setCookies('email', data.email);
+            navigate('/Dashboard');
+            console.log(data.token);
 
         } else {
             // Handle error

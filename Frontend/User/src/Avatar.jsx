@@ -58,4 +58,3 @@ const Avatar = ({ onImageUpload }) => {
 };
 
 export default Avatar;
-
