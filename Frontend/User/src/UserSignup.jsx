@@ -75,7 +75,7 @@ const UserSignup = () => {
 
   return (
     <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
-      <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">
+      <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200" style={{ width: '400px', height: '550px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img src={logo} alt="Logo" style={{ width: '150px', height: 'auto' }} />
         </div>
@@ -97,13 +97,13 @@ const UserSignup = () => {
                     <label htmlFor="" for="input" className="absolute text-sm text-neutral-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-3 peer-focus:text-amber-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y peer-placeholder-shown:mt-6 peer-placeholder-shown:left-3 peer-focus:scale-75">Confirm your password...</label>
                     <AiOutlineUnlock className="absolute top-4 right-4 text-neutral-500 duration-300 peer-focus:text-gray-950"/>
                     </div>
-                    <button className="w-full mb-4 wtext-[18px] mt-6 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
-                    <div className="relative my-2 text-center">
+                    <button className="w-full wtext-[18px] my-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>NEXT</b></button>
+                    <div className="relative text-center">
                         <span className="text-neutral-500">Already have an account? <Link className="text-neutral-500 hover:text-orange-600" to='/Signin'><u>Sign in</u></Link></span>
                     </div>
                     </form>
                 </div>
-                <div className="absolute my-4 bottom-20 pb-7 text-center">
+                <div className="absolute my-4 bottom-20 pb-12 text-center">
                     <span>Wolfgang: Triple-N © 2023</span>
                 </div>
     </div>
