@@ -53,7 +53,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/users', (req, res) => {
+app.get('/getusers', (req, res) => {
   const query = 'SELECT * FROM user_profile';
 
   db.query(query, (err, result) => {
@@ -65,18 +65,7 @@ app.get('/users', (req, res) => {
   });
 });
 
-app.get('/users/:id', (req, res) => {
-  const query = 'SELECT * FROM user_profile WHERE id = ?';
-  const id = req.params.id;
-
-  db.query(query, id, (err, result) => {
-    if (err) {
-      res.status(500).send({ error: err });               
-    } else {
-      res.send(result);
-    }
-  });
-});   
+   
 
 app.get('/feedback', (req, res) => {
   const query = 'SELECT * FROM feedback';
@@ -90,15 +79,15 @@ app.get('/feedback', (req, res) => {
   });
 });
 
-app.get('/feedback/:id', (req, res) => {
-  const query = 'SELECT * FROM feedback WHERE id = ?';
-  const id = req.params.id;
+app.delete('/users/:user_ID', (req, res) => {
+  const query = "DELETE FROM user_profile WHERE user_ID = ?";
+  const user_ID = req.params.user_ID;
 
-  db.query(query, id, (err, result) => {
+  db.query(query, user_ID, (err, result) => {
     if (err) {
-      res.status(500).send({ error: err });               
+      res.status(500).send({ error: err });
     } else {
-      res.send(result);
+      res.send({ message: 'User deleted successfully' });
     }
   });
 });

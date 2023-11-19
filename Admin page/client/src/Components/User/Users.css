@@ -1,0 +1,8 @@
+.btn{
+    background: linear-gradient(#ff914d, #fd3131);
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px; /* Reduced font size */
+    padding: 5px 10px; /* Added padding */
+}
