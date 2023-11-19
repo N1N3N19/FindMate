@@ -1,12 +1,31 @@
 import logo2 from '../src/assets/logo2.png';
 import '../src/UserPlaceholder.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-
 const UserFinishPF = () => {
-  
+  const [genderOptions, setGenderOptions] = useState([]);
+  const [preferredGender, setPreferredGender] = useState('');
+
+  useEffect(() => {
+    const fetchGenders = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/genders');
+        const data = await response.json();
+        setGenderOptions(data);
+      } catch (error) {
+        console.error('Error fetching genders:', error);
+      }
+    };
+
+    fetchGenders();
+  }, []); // Empty dependency array ensures the effect runs once on mount
+
+  const handleGenderChange = (gender) => {
+    setPreferredGender(gender);
+  };
+
   const [isClicked, setIsClicked] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -25,9 +44,7 @@ const UserFinishPF = () => {
       
     }
   };
-  
- 
-  
+
 
   const handleAbout = (e) => {
     e.preventDefault();
@@ -89,7 +106,7 @@ const UserFinishPF = () => {
           ></textarea>
             </div>
             <div className="relative my-4">
-              <label className="text-lg text-gray-500 py-2.5 pl-2"><b>Your interests</b>(up to 5)</label>
+              <label className="text-lg text-gray-500 py-2.5 pl-2"><b>Your interests </b>(up to 5)</label>
               <ul role="list" class="pl-10 marker:text-gray-500 font-semibold list-disc pl-5 space-y-3 text-slate-500">
                 <li>Sports</li>
                   <div className="flex space-x-0.5">
@@ -132,9 +149,25 @@ const UserFinishPF = () => {
                   </div>
               </ul>
             </div>
-            <div className="relative my-4">
-              <label className="text-lg text-gray-500 py-2.5 pl-2"><b>Show me</b></label>
-            </div>
+             <div className="relative my-4">
+      <div className="relative my-4">
+      <label className="text-lg text-gray-500 py-2.5 pl-2">
+        <b>Show me</b>
+      </label>
+      <select
+  className="rounded-full w-full py-2.5 pl-3 mt-1 text-sm text-gray-400 bg-neutral-300 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400"
+  value={preferredGender}
+  onChange={handleGenderChange}
+>
+  <option value="" disabled>Select your preferred gender</option>
+  {genderOptions.map((gender, index) => (
+    <option key={index} value={gender}>
+      {gender}
+    </option>
+  ))}
+</select>
+    </div>
+    </div>
             <button className="w-72 wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>CREATE YOUR PROFILE</b></button>
           </div>
           <div className="relative my-2 text-center">

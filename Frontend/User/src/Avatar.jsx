@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import defaultAvatar from '../src/assets/avatar.png';
 
 const Avatar = ({ onImageUpload }) => {
   const [displayUploadButton, setDisplayUploadButton] = useState(true);
   const [imageSrc, setImageSrc] = useState(defaultAvatar);
-  const editorRef = useRef();
 
   const handleMouseEnter = () => {
     setDisplayUploadButton(true);

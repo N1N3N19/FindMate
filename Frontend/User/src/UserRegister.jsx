@@ -15,9 +15,8 @@ const UserRegister = () => {
   const [Gender, setGender] = useState('');
   const [DOB, setDob] = useState('');
   let [avatar, setAvatar] = useState('');
-  const [customGender, setCustomGender] = useState(''); // State for the custom gender input
   const [genderOptions, setGenderOptions] = useState([
-    "Female", "Male", "Lesbian", "Gay", "Bisexual", "Transgender", "Questioning", "Asexual"
+    "Female", "Male", "Non-binary", "Lesbian", "Gay", "Bisexual", "Transgender", "Questioning", "Asexual"
   ]);
 
   //get userID from userRegister router
