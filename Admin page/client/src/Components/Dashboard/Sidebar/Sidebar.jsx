@@ -14,6 +14,12 @@ const Sidebar = ({children}) => {
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
+        
+        {
+            path:"/dashboard",
+            name:"Dashboard",
+            icon:<FaRegChartBar/>
+        },
         {
             path:"/users",
             name:"Users",
@@ -30,6 +36,7 @@ const Sidebar = ({children}) => {
             icon:<IoIosLogOut />
             
         }
+       
 
     ]
     return (

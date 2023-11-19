@@ -6,6 +6,9 @@ import {FaUserShield} from 'react-icons/fa'
 import {BsFillShieldLockFill} from 'react-icons/Bs'
 import Axios from 'axios'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Register = () =>{
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -22,11 +25,13 @@ const Register = () =>{
         password: password,
       }).then(() => {
         console.log('User has been created');
+        toast.success('Successfully registered');
         window.location.href = '/login';
       })
     }
     return(
         <div className='loginPage flex'>
+           <ToastContainer />
         <div className="container flex">
         
         <div className="formDiv flex">

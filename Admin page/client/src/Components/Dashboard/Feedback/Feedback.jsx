@@ -18,13 +18,14 @@ export default function Feedback() {
 
   const columns = [
     { field: 'report_ID', headerName: 'Report_ID', width: 150 },
-    { field: 'detail', headerName: 'Detail', width: 150 },
-    { field: 'add_photo', headerName: 'photo'}
+    { field: 'detail', headerName: 'Detail', width: 1000 },
+    { field: 'add_photo', headerName: 'photo'},
+    
   ];
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} />
+      <DataGrid rows={rows} columns={columns} pageSize={10} />
     </div>
   );
 }

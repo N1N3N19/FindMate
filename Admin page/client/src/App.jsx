@@ -5,6 +5,9 @@ import Sidebar from './Components/Dashboard/Sidebar/Sidebar';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Users from './Components/User/Users';
+import Dashboard from './Components/Dashboard/Dashboard';
+
+
 function App() {
   return (
     <Router>
@@ -19,6 +22,7 @@ function App() {
               <Routes>
                 <Route path="/users" element={<Users />} />
                 <Route path="/feedback" element={<Feedback />} />
+                <Route path="/dashboard" element={< Dashboard/>} />
               </Routes>
             </Sidebar>
           )}

@@ -1,0 +1,4 @@
+.table-container {
+    height: 500px; /* Adjust this value as needed */
+    overflow-y: none; /* Enable vertical scrolling */
+  }
