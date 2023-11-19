@@ -7,7 +7,7 @@ import '../src/UserCustom.css'
 import Avatar from "./Avatar";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Select from 'react-tailwindcss-select';
 
 const UserRegister = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -52,7 +52,6 @@ const UserRegister = () => {
             },
             body: JSON.stringify(dataTosend),
         });
-
        
         const data = await response.json();
         
@@ -68,7 +67,18 @@ const UserRegister = () => {
         }
     };
 
-    
+    const options = [
+        {value: "fox", label: "? Fox"},
+        {value: "Butterfly", label: "? Butterfly"},
+        {value: "Honeybee", label: "? Honeybee"},
+    ];
+
+    const [animal, setAnimal] = useState(null);
+
+    const handleChange = (selectedOption) => {
+        setAnimal(selectedOption);
+    };
+
     return (
         <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"backgroundImage": "url('../src/assets/bg.jpg')"}}>
             <div className="bg-white border border-amber-400 rounded-lg p-10 w-96 box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200" style={{ width: '400px'}}>
@@ -92,16 +102,6 @@ const UserRegister = () => {
                     <BsPersonVcard className="absolute top-4 right-4 text-neutral-500 duration-300 peer-focus:text-gray-950"/>
                 </div>
                 <div>
-                    <Dropdown className="d-inline mx-2" autoClose="outside">
-                        <Dropdown.Toggle id="dropdown-autoclose-outside">
-                        Clickable Inside
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
                 </div>
                 <div className="relative my-4">
                     <input type="text" id="input" className="rounded-full w-full py-2.5 pl-5 px-0 mt-1 text-sm text-neutral-500 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer" placeholder="" onChange={handleGender}/>
@@ -111,6 +111,13 @@ const UserRegister = () => {
                 <div className="relative" style={{bottom: '10px'}}>
                     <label className="text-xs text-neutral-300 py-2.5 pl-3">Date of Birth</label>
                     <input type="date" className="rounded-full w-full py-2.5 pl-3 pr-4 px-0 mt-1 text-sm text-gray-400 bg-gray-100 bg-opacity-80 appearance-none focus:outline-none focus:ring-0 focus:text-neutral-500 focus:border-amber-400 peer custom-calender" placeholder="" onChange={handleDob}/>
+                </div>
+                <div className="relative my-4">
+                <Select
+            value={animal}
+            onChange={handleChange}
+            options={options}
+        />
                 </div>
                 <div>
                     <input type="checkbox" id="checkbox" className="relative my-1 mx-3.5 right-2 top-2"></input>
