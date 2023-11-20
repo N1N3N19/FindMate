@@ -14,7 +14,7 @@ import { Cookies, useCookies } from 'react-cookie'
 function App() {
 
 
-  const AuthToken = Cookies.AuthToken
+
   return (
     <div>
       <Routes>
@@ -29,7 +29,7 @@ function App() {
         <Route path='TerminateMate' element={<TerminateMate/>}></Route>
         <Route path='Mode' element={<UserMode/>}></Route>
         <Route path='FinishPF' element={<UserFinishPF/>}></Route>
-        {AuthToken && <Route path='Dashboard' element={<Dashboard/>}></Route>}
+        <Route path='Dashboard' element={<Dashboard/>}></Route>
         </Routes>
     </div>
   )

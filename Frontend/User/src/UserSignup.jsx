@@ -64,6 +64,7 @@ const UserSignup = () => {
             setCookie('userID', data.userID);
             setCookie('email', data.email);
             setCookie('AuthToken', data.token);
+            console.log(data.token)
             console.log('API Response:', data);
            
             navigate(`/Register/`);

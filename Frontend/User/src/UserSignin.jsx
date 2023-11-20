@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 const Signin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [cookies, setCookies] = useCookies(['AuthToken', 'userID', 'user']);
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const handleUsernameInput = (e) => {
         console.info('Username:', e.target.value);
         setUsername(e.target.value);
@@ -38,11 +38,12 @@ const Signin = () => {
     
         if (response.ok) {
             // Handle success
-            // setCookies('AuthToken', data.token);
-            setCookies('AuthToken', data.token, {path: '/Dashboard'});
-            setCookies('email', data.email);
+
+            setCookie('userID', data.userID);
+            setCookie('AuthToken', data.token);
+            setCookie('email', data.email);
             navigate('/Dashboard');
-            console.log(data.token);
+            
 
         } else {
             // Handle error

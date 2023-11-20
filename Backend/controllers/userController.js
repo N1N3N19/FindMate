@@ -151,11 +151,11 @@ const registUser = async (req, res) => {
   //@route patch /api/user/about
   //@access private
   const about = async(req,res) => {
-    const {userID, About_user} = req.body;
-    console.log(About_user);
+    const {userID, preferredGender ,About_user} = req.body;
+    
 
     try{
-      const [result] = await pool.query('UPDATE user_profile SET About_user = ? WHERE user_ID = ?', [About_user, userID]);
+      const [result] = await pool.query('UPDATE user_profile SET About_user = ?, show_me = ? WHERE user_ID = ?', [About_user, preferredGender ,userID]);
       res.json({userID})
     } catch(error){
       console.error('Login error:', error);
@@ -168,7 +168,22 @@ const registUser = async (req, res) => {
   //@access private
   const interested = async(req,res) => {
     const {userID, selectedButtons} = req.body;
+    
     try{
+      const [rows] = await pool.query('SELECT * FROM user_interest WHERE UID = ?', [userID]);
+      const user = rows[0];
+
+      if (user) {
+        const [result] = await pool.query('DELETE FROM user_interest WHERE UID = ?', [userID]);
+     
+      }
+    } catch(error){
+      console.error('This user is not in the user_interest table:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+
+    try{
+      
       for (let i = 0; i < selectedButtons.length; i++) {
         const [id] = await pool.query(
           'SELECT ID FROM interested WHERE i_name = ?',
@@ -179,6 +194,9 @@ const registUser = async (req, res) => {
           'INSERT INTO user_interest(UID, IID) VALUES(?, ?)', 
           [userID, IID]);
       }
+      res.status(201).json({userID})
+      
+      
     } catch(error){
       console.error('Login error:', error);
       res.status(500).json({ message: 'Server error' });
@@ -191,7 +209,7 @@ const registUser = async (req, res) => {
     const userID = req.query.params;
     
     try {
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE user_ID = ?', [userID]);
+      const [rows] = await pool.query('SELECT * FROM user_profile_mode WHERE user_ID = ?', [userID]);
       //return user id from database table user_profile
       
      
@@ -229,8 +247,8 @@ const swipe = async(req,res) => {
   const {userID, otherID, swipe_state} = req.body;
   const [rows]  = await pool.query('SELECT * FROM swipe WHERE user_a = ? AND user_b = ?', [otherID, userID]);
   const state = rows[0]?.swipe_state;
-
-  if (state === undefined){
+  console.log(state);
+  if (state === undefined || state === "left"){
     try {
       const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
       res.status(200).json(rows);
@@ -240,12 +258,13 @@ const swipe = async(req,res) => {
     }
   } else if (state === "right"){
     try { 
+      
       const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
       const [rows1] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [userID,otherID]);
       const [rows2] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [otherID,userID]);
-      
+    
     } catch (error) {
-      console.error('Database error:', error);
+      console.error('Database error:', error.message);
       res.status(500).json({ message: 'Server error' });
     }
   }
@@ -288,7 +307,7 @@ const loginUser = async(req,res) => {
       }
     }
       
-    const token = jwt.sign({ rows, email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
+    const token = jwt.sign({ user, email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
     res.status(201).json({ token, userID: user.user_ID, email: email, message: "User logged in successfully!" });
    
    
@@ -301,28 +320,82 @@ const loginUser = async(req,res) => {
 };
   
 
-    
 
   // TO DO: display user by id from database
 
-  const getUserById = async(req,res) =>{
+  const getUserByMode = async(req,res) =>{
     try{
-      const userID = req.body.userID;
-      const [rows] = await pool.query('SELECT * FROM user_profile WHERE id != ?', [userID]);
-      const user = rows[0];
-     
-      if (user) {
-        res.status(200).json.body(user);
-      } else {
-        res.status(404).json({ message: 'User not found' });
-      }
+      const {userID,show_me,mode_pref} = req.query;
+      // console.log(req.query);
+      if(show_me === "Everyone"){   
+        switch (mode_pref) {
+          case "friend": 
+               const [rows1] = await pool.query('SELECT * FROM friend_mode WHERE user_ID != ?', [userID]);
+               if (rows1[0]) {
+                res.status(200).json(rows1[0]);
+              } else {
+                res.status(404).json({ message: 'User not found' });
+              }
+               break;
+          case "fan":
+               const [rows2] = await pool.query('SELECT * FROM fan_mode WHERE user_ID != ?', [userID]);
+               if (rows2[0]) {
+                res.status(200).json(rows2[0]);
+              } else {
+                res.status(404).json({ message: 'User not found' });
+              }
+               break;
+          case "fun":
+               const [rows3] = await pool.query('SELECT * FROM fun_mode WHERE user_ID != ?', [userID]);
+               
+               if (rows3[0]) {
+                res.status(200).json(rows3[0]);
+              } else {
+                res.status(404).json({ message: 'User not found' });
+              }
+               break;   
+              }
+          }
+          else{
+            switch (mode_pref) {
+              case "friend": 
+                   const [rows1] = await pool.query('SELECT * FROM friend_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
+                  
+                    if (rows1[0]) {
+                      res.status(200).json(rows1[0]);
+                    } else {
+                      res.status(404).json({ message: 'User not found' });
+                    }
+                   break;
+              case "fan":
+                   const [rows2] = await pool.query('SELECT * FROM fan_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
+                  
+                   if (rows2[0]) {
+                    res.status(200).json(rows2[0]);
+                  } else {
+                    res.status(404).json({ message: 'User not found' });
+                  }
+                   break;
+              case "fun":
+                   const [rows3] = await pool.query('SELECT * FROM fun_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
+                   
+                   if (rows3[0]) {
+                    res.status(200).json(rows3[0]);
+                  } else {
+                    res.status(404).json({ message: 'User not found' });
+                  }
+                   break;   
+                  }
+          }
+
+         
     } catch (error) {
       console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
     }
   
   }
-module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserById}
+module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode}
 
 
 //@desc current user info

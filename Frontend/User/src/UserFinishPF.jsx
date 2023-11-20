@@ -5,32 +5,34 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const UserFinishPF = () => {
-  const [genderOptions, setGenderOptions] = useState([]);
+  const [genderOptions, setGenderOptions] = useState(['Male', 'Female', 'Everyone']);
   const [preferredGender, setPreferredGender] = useState('');
 
-  useEffect(() => {
-    const fetchGenders = async () => {
-      try {
-        const response = await fetch('http://localhost:5001/api/genders');
-        const data = await response.json();
-        setGenderOptions(data);
-      } catch (error) {
-        console.error('Error fetching genders:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchGenders = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:5001/api/genders');
+  //       const data = await response.json();
+  //       setGenderOptions(data);
+  //     } catch (error) {
+  //       console.error('Error fetching genders:', error);
+  //     }
+  //   };
 
-    fetchGenders();
-  }, []); // Empty dependency array ensures the effect runs once on mount
+  //   fetchGenders();
+  // }, []); // Empty dependency array ensures the effect runs once on mount
 
   const handleGenderChange = (gender) => {
-    setPreferredGender(gender);
+    setPreferredGender(gender.target.value);
+    console.log(gender.target.value)
   };
 
-  const [isClicked, setIsClicked] = useState(false);
+ 
   const [selectedButtons, setSelectedButtons] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookie, setCookie, removeCookie] = useCookies(['user']);
   const [About_user, setAbout] = useState('');
-  const  userID  = cookies.userID;
+
+  const  userID  = cookie.userID;
   const handleClick = (id) => {
     
     if (selectedButtons.includes(id)) {
@@ -45,19 +47,21 @@ const UserFinishPF = () => {
     }
   };
   
- 
-  const navigate = useNavigate();
+  
+
 
   const handleAbout = (e) => {
     e.preventDefault();
     setAbout(e.target.value);
     console.log("About:" + e.target.value);
   }
+ 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    const dataTosend = {userID, About_user,selectedButtons};
-    
+    const dataTosend = {userID, About_user,selectedButtons,preferredGender};
+    console.log('Data to send:', dataTosend);
     const response = await fetch(`http://localhost:5001/api/user/about`, {
       method: 'PATCH',
       headers: {
@@ -73,13 +77,16 @@ const UserFinishPF = () => {
       },
       body: JSON.stringify(dataTosend),
     });
-    const data1 = await response.json();
-    const data2 = await response2.json();
-    
+
+    console.log(response.ok);
+    console.log(response2.ok);  
+   
     if (response.ok) {
       // Handle success
-      console.log(data1.message);
-      console.log(data2.message);
+      console.log('Insert success');
+      // removeCookie('userID', cookie.userID);
+      // removeCookie('AuthToken', cookie.AuthToken);
+      // removeCookie('email', cookie.email);
       navigate(`/Signin`);
   } else {
       // Handle error
