@@ -245,9 +245,10 @@ const otherUser = async(req,res) => {
 //@access private
 const swipe = async(req,res) => {
   const {userID, otherID, swipe_state} = req.body;
+  console.log(req.body);
   const [rows]  = await pool.query('SELECT * FROM swipe WHERE user_a = ? AND user_b = ?', [otherID, userID]);
   const state = rows[0]?.swipe_state;
-  console.log(state);
+  
   if (state === undefined || state === "left"){
     try {
       const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
@@ -324,32 +325,35 @@ const loginUser = async(req,res) => {
   // TO DO: display user by id from database
 
   const getUserByMode = async(req,res) =>{
+    let connection = await pool.getConnection();
     try{
+      await connection.beginTransaction();
       const {userID,show_me,mode_pref} = req.query;
       // console.log(req.query);
       if(show_me === "Everyone"){   
         switch (mode_pref) {
           case "friend": 
                const [rows1] = await pool.query('SELECT * FROM friend_mode WHERE user_ID != ?', [userID]);
-               if (rows1[0]) {
-                res.status(200).json(rows1[0]);
+               if (rows1) {
+                res.status(200).json(rows1);
               } else {
                 res.status(404).json({ message: 'User not found' });
               }
                break;
           case "fan":
                const [rows2] = await pool.query('SELECT * FROM fan_mode WHERE user_ID != ?', [userID]);
+          
                if (rows2[0]) {
-                res.status(200).json(rows2[0]);
+                res.status(200).json(rows2);
               } else {
                 res.status(404).json({ message: 'User not found' });
               }
                break;
           case "fun":
                const [rows3] = await pool.query('SELECT * FROM fun_mode WHERE user_ID != ?', [userID]);
-               
+             
                if (rows3[0]) {
-                res.status(200).json(rows3[0]);
+                res.status(200).json(rows3);
               } else {
                 res.status(404).json({ message: 'User not found' });
               }
@@ -361,8 +365,8 @@ const loginUser = async(req,res) => {
               case "friend": 
                    const [rows1] = await pool.query('SELECT * FROM friend_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
                   
-                    if (rows1[0]) {
-                      res.status(200).json(rows1[0]);
+                    if (rows1) {
+                      res.status(200).json(rows1);
                     } else {
                       res.status(404).json({ message: 'User not found' });
                     }
@@ -370,8 +374,8 @@ const loginUser = async(req,res) => {
               case "fan":
                    const [rows2] = await pool.query('SELECT * FROM fan_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
                   
-                   if (rows2[0]) {
-                    res.status(200).json(rows2[0]);
+                   if (rows2) {
+                    res.status(200).json(rows2);
                   } else {
                     res.status(404).json({ message: 'User not found' });
                   }
@@ -379,8 +383,8 @@ const loginUser = async(req,res) => {
               case "fun":
                    const [rows3] = await pool.query('SELECT * FROM fun_mode WHERE user_ID != ? AND Gender = ?', [userID,show_me]);
                    
-                   if (rows3[0]) {
-                    res.status(200).json(rows3[0]);
+                   if (rows3) {
+                    res.status(200).json(rows3);
                   } else {
                     res.status(404).json({ message: 'User not found' });
                   }
@@ -390,10 +394,14 @@ const loginUser = async(req,res) => {
 
          
     } catch (error) {
+      await connection.rollback();
       console.error('Database error:', error);
       res.status(500).json({ message: 'Server error' });
+    } finally {
+      if (connection){
+        connection.release();
+      }
     }
-  
   }
 module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode}
 

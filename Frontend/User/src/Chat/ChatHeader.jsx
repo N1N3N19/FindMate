@@ -9,7 +9,7 @@ const ChatHeader = ({user}) => {
     const logout = () => {
         removeCookie('userID', cookies.userID)
         removeCookie('AuthToken', cookies.AuthToken)
-        removeCookie('email', cookie.email);
+        removeCookie('email', cookies.email);
         navigate('/');
     }
     return (

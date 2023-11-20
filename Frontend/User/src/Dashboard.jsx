@@ -20,7 +20,7 @@ const Dashboard = () => {
             const response = await axios.get('http://localhost:5001/api/user/getUser', 
             { params: { params: userID } });
             await setUser(response.data);
-            
+            console.log(response.data)
             
           } catch (error) {
             console.error(error);
@@ -35,8 +35,8 @@ const Dashboard = () => {
             const response = await axios.get('http://localhost:5001/api/user/getUserByMode', 
             { params: { userID, show_me, mode_pref } });
             setModeUser(response.data);
-         
-            
+            console.log(response.data)
+           
           } catch (error) {
             console.error(error);
           }
@@ -56,9 +56,9 @@ const Dashboard = () => {
     }, [user]
     )
 
-    const updateMatch = async (matchedUserID) => {
+    const updateMatch = async (matchedUserID, lastDirection) => {
         const dataToSend = { userID, otherID: matchedUserID, swipe_state: lastDirection };
-    
+        console.log(dataToSend);
         try {
             const response = await fetch('http://localhost:5001/api/user/swipe', {
                 method: 'POST',
@@ -83,11 +83,14 @@ const Dashboard = () => {
     };
     
     const swiped = (direction, swipeUserID) => {
-        
+        console.log('removing: ' + swipeUserID);
         if(direction === 'right'){
-            updateMatch(swipeUserID)
+            updateMatch(swipeUserID, "right")
         }
-    }
+        if(direction === 'left'){
+            updateMatch(swipeUserID,'left')
+    }   
+}
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
@@ -104,13 +107,19 @@ const Dashboard = () => {
              <div className='swipe-container'>
                 <div className='card-container'>
                    
-                    {character.map((user) => (
+                    {modeUser.map((user) => (
                             user ?(
                                 user.Name && user.Profile_pic && user.user_ID ?(
                                 <TinderCard
                                     className="swipe"
                                     key={user.user_ID}
-                                    onSwipe={(dir) => swiped(dir, user.user_ID)}
+                                    onSwipe={(dir) => {
+                                        setLastDirection(dir);
+                                        swiped(dir, user.user_ID);
+                                    
+                                        
+                                    }}
+                                    
                                     onCardLeftScreen={() => outOfFrame(user.Name)}>
                                     <div
                                         style={{backgroundImage: "url(" + user.Profile_pic + ")"}}
