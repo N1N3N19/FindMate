@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const{message, about, user, checkUser,registUser,loginUser,mode,swipe, interested, getUserByMode, getMatchedUser, getMessage} = require("../controllers/userController");
+const{terminate, message, about, user, checkUser,registUser,loginUser,mode,swipe, interested, getUserByMode, getMatchedUser, getMessage} = require("../controllers/userController");
 const validateToken = require("../middleware/validateTokenHandler");
 
 
@@ -12,6 +12,7 @@ router.route("/message").post(message);
 router.route("/getMessage").get(getMessage);
 router.route("/getMatchedUser").get(getMatchedUser);
 router.route("/getUserByMode").get(getUserByMode);
+router.route("/terminateMate").post(terminate);
 // router.route("/other").get(otherUser);
 router.route("/swipe").post(swipe);
 // router.route("/getUser").get(getUserById);
