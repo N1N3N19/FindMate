@@ -8,29 +8,28 @@ import Axios from 'axios';
 const Login = () => {
     const [loginusername, setloginusername] = useState('');
     const [loginpassword, setloginpassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     const loginUser = (event) => {
         event.preventDefault();
       
         if (!loginusername || !loginpassword) {
-          setErrorMessage('Please fill in both fields.');
+          alert('Please fill in both fields.');
           return;
         }
       
         Axios.post('http://localhost:3003/login', {
-          loginusername: loginusername,
-          loginpassword: loginpassword,
-        }).then((response) => {
-          if (response.data.length > 0) {
-            console.log('Login successful!');
-            // Redirect to the dashboard page
-            window.location.href = '/dashboard';
-          } else {
-            console.log(response.data.message);
-            setErrorMessage('Wrong username/password combination!');
-          }
-        })
+            loginusername: loginusername,
+            loginpassword: loginpassword,
+          }).then((response) => {
+            if (response.data.message === "Login Successful") {
+              console.log('Login successful!');
+              // Redirect to the dashboard page
+              window.location.href = '/dashboard';
+            } else {
+              console.log(response.data.message);
+              alert(response.data.message);
+            }
+          })
       }
 
 
@@ -41,7 +40,6 @@ const Login = () => {
                     <div className="headerDiv">
                         <img src={findmateLogo} alt="Logo img" />
                         <h3>Welcome Back!</h3>
-                        {errorMessage && <p>{errorMessage}</p>}
                        
                     </div>
                     <form className='form grid'>

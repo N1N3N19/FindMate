@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 app.use(express.json())
 app.use(cors())
@@ -21,14 +23,21 @@ db.connect((err) => {
 
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
-  const query = 'INSERT INTO admin (username, password) VALUES (?, ?)';
 
-  db.query(query, [username, password], (err, result) => {
+  bcrypt.hash(password, saltRounds, function(err, hash) {
     if (err) {
       res.send(err);
     } else {
-      console.log('User inserted successfully');
-      res.send({message: "User added"});
+      const query = 'INSERT INTO admin (username, password) VALUES (?, ?)';
+
+      db.query(query, [username, hash], (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          console.log('Admin inserted successfully');
+          res.send({message: "Admin added"});
+        }
+      });
     }
   });
 });
@@ -40,15 +49,27 @@ app.listen(3003, () => {
 
 app.post('/login', (req, res) => {
   const { loginusername, loginpassword } = req.body;
-  const query = 'SELECT * FROM admin WHERE username = ? AND password = ?';
+  const query = 'SELECT password FROM admin WHERE username = ?';
 
-  db.query(query, [loginusername, loginpassword], (err, result) => {
+  db.query(query, [loginusername], (err, result) => {
     if (err) {
+      console.log(err); 
       res.send({ err: err });
-    } else if (result.length > 0) {
-      res.send(result);
+    }
+
+    if (result.length > 0) {
+      bcrypt.compare(loginpassword, result[0].password, (error, response) => {
+        if (error) {
+          console.log(error); 
+        }
+        if (response) {
+          res.send({ message: "Login Successful" });
+        } else {
+          res.send({ message: "Wrong username/password combination!" });
+        }
+      });
     } else {
-      res.send({ message: "Wrong username/password combination!" });
+      res.send({ message: "User doesn't exist" });
     }
   });
 });

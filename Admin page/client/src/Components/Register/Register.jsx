@@ -6,39 +6,41 @@ import {FaUserShield} from 'react-icons/fa'
 import {BsFillShieldLockFill} from 'react-icons/Bs'
 import Axios from 'axios'
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 const Register = () =>{
     const [password, setPassword] = useState('')
+    const [confirmpass, setConfirmpass] = useState('')
     const [username, setUsername] = useState('')
-    const [errorMessage, setErrorMessage] = useState('');
 
     const createUser = () => {
       if (!username || !password) {
-        setErrorMessage('Please fill in both fields.');
+        alert('Please fill in both fields.');
         return;
       }
+      if (password !== confirmpass) {
+        alert('Passwords do not match');
+        return;
+      }
+    
+      
     
       Axios.post('http://localhost:3003/register', {
         username: username,
         password: password,
       }).then(() => {
         console.log('User has been created');
-        toast.success('Successfully registered');
+        alert('Successfully registered!');
         window.location.href = '/login';
       })
     }
     return(
+      
         <div className='loginPage flex'>
-           <ToastContainer />
         <div className="container flex">
         
         <div className="formDiv flex">
             <div className="headerDiv">
                 <img src={findmateLogo} alt="Logo img" />
                 <h3>Register here!</h3>
-                {errorMessage && <p>{errorMessage}</p>}
                     
             
                 </div>  
@@ -59,6 +61,10 @@ const Register = () =>{
                         <div className="input flex">
                             <BsFillShieldLockFill className='icon'/>
                             <input type='password' id='password' placeholder='Enter Password' onChange={(event)=>{setPassword(event.target.value)}}/>
+                        </div>
+                        <div className="input flex">
+                            <BsFillShieldLockFill className='icon'/>
+                            <input type='password' id='confirmpass' placeholder='Confirm Password' onChange={(event)=>{setConfirmpass(event.target.value)}}/>
                         </div>
                         </div>
                     
