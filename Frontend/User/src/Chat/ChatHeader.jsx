@@ -1,5 +1,7 @@
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom';
+import { IoLogOut } from "react-icons/io5";
+
 const ChatHeader = ({user}) => {
     if (!user) {
         return null; // or return a loading spinner, or some placeholder content
@@ -20,7 +22,7 @@ const ChatHeader = ({user}) => {
                 </div>  
             </div>
             <h3>{user.Name}</h3>
-            <i className="log-out-icon" onClick={logout}>⇦</i>
+            <i className="log-out-icon" onClick={logout}><IoLogOut /></i>
     
         </div>
         

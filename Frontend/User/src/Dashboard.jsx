@@ -118,7 +118,7 @@ const Dashboard = () => {
     // console.log(getMatchedUser)
 
     return (    
-        <div className="dashboard bg-cover" style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
+        <div className="dashboard">
          
             <ChatContainer  user={user} matches={getMatchedUser ? getMatchedUser : null}/>
              <div className='swipe-container'>
