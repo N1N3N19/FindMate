@@ -141,8 +141,8 @@ const Dashboard = () => {
                                     <div
                                         style={{backgroundImage: "url(" + user.Profile_pic + ")"}}
                                         className="card">
-                                        <div className="flex justify-center items-center bg-white rounded-t-lg box-border" style={{ width: '400px', height: '85px'}}>
-                                            <h3 className="text-black">{user.Name}</h3>
+                                        <div className="flex justify-center items-center pt-2 bg-red-500 rounded-t-lg box-border" style={{ width: '400px', height: '85px'}}>
+                                            <h3>{user.Name}</h3>
                                         </div>
                                         <div className="flex flex-col justify-start py-3 px-2 bg-white top-20 rounded-b-lg" style={{ width: '400px', height: '85px', marginTop: '500px'}}>
                                             <p className="text-gray-950 text-2xl font-bold pl-4">{user.Age}, {user.Gender}</p>
@@ -156,7 +156,7 @@ const Dashboard = () => {
                     
                         )
                     }
-                    <div className ="swipe-info"> <p>You swiped {lastDirection}</p></div>
+                    <div className ="swipe-info"><p>You swiped {lastDirection}</p></div>
                 </div>
             </div>
         </div>
