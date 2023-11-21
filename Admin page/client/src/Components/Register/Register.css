@@ -16,7 +16,7 @@
 .grid{
     display:grid;
     align-items: center;
-    gap: 1.5 rem;
+    gap: auto;
 }
 html{
     font-size: 90%;

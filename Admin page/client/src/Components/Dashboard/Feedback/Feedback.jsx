@@ -27,7 +27,7 @@ export default function Feedback() {
   };
 
   const columns = [
-    { field: 'report_ID', headerName: 'Report_ID', width: 150 },
+    { field: 'report_ID', headerName: 'ID', width: 150 },
     { field: 'detail', headerName: 'Detail', width: 1000 },
     { field: 'add_photo', headerName: 'photo'},
     {

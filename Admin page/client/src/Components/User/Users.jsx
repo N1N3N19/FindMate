@@ -30,9 +30,9 @@ export default function Users() {
   const columns = [
    
     { field: 'user_ID', headerName: 'ID', width: 100 },
-    { field: 'Name', headerName: 'Name', width: 150 },
-    { field: 'Gender', headerName: 'Gender', width: 150 },
-    { field: 'email', headerName: 'Email', width: 250 },
+    { field: 'Name', headerName: 'Name', width: 400 },
+    { field: 'Gender', headerName: 'Gender', width: 200 },
+    { field: 'email', headerName: 'Email', width: 450 },
     {
       field: 'delete',
       headerName: '',
@@ -53,7 +53,7 @@ export default function Users() {
   ];
 
   return (
-    <div style={{ height: '100%', width: '61%' }}>
+    <div style={{ height: '100%', width: '100%' }}>
       <DataGrid rows={rows} columns={columns} pageSize={10} />
     </div>
   );
