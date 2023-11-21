@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const ChatContainer = ({ user, matches }) => {
     const [ clickedUser, setClickedUser ] = useState(null)
- 
+    console.log("user",clickedUser)
     // console.log(matches)
     return (
         <div className="chat-container">

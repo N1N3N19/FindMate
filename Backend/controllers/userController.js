@@ -437,9 +437,10 @@ const loginUser = async(req,res) => {
   //@route POST /api/user/message
   //@access private
   const message = async(req,res) => {
-    const {userID, otherID, message} = req.query;
+    const {userID, otherID, msg_text} = req.body;
+    
     try{
-      const [result] = await pool.query('INSERT INTO message(msg_text, receiver_ID, sender_ID) VALUES (?,?,?)', [message,userID,otherID ]);
+      const [result] = await pool.query('INSERT INTO message(msg_text, receiver_ID, sender_ID) VALUES (?,?,?)', [msg_text,otherID,userID ]);
       const messages = result[0];
       const [returnMessage] = await pool.query('SELECT * FROM message WHERE msg_ID = ?', [result.insertId]);
       res.status(200).json(returnMessage);
@@ -448,7 +449,18 @@ const loginUser = async(req,res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
-module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode, getMatchedUser, message  }
+
+  const getMessage = async(req,res) => {
+    const {userID, otherID} = req.query;
+    try{
+      const [returnMessage] = await pool.query('SELECT * FROM message WHERE receiver_ID = ? AND sender_ID = ?', [userID, otherID]);
+      res.status(200).json(returnMessage);
+    } catch(error){
+      console.error('Database error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode, getMatchedUser, message, getMessage  }
 
 
 //@desc current user info

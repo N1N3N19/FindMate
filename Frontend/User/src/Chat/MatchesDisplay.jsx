@@ -11,7 +11,7 @@ const MatchesDisplay = ({matches, setClickedUser}) => {
             const response = await axios.get('http://localhost:5001/api/user/getUser', 
             { params: { params: userID } });
             await setMatches(response.data);
-            console.log(response.data)
+            // console.log(response.data)
             
           } catch (error) {
             console.error(error);
@@ -23,11 +23,11 @@ const MatchesDisplay = ({matches, setClickedUser}) => {
     },[matches])
 
     const profile = [matchedProfile]
-    // console.log("sss",matchedProfile)
+    
     return (
         <div className="matches-display">
             { matchedProfile &&  (
-                    <div className="match-card" onClick = {() => setClickedUser(matchedProfile.user_ID)} >
+                    <div className="match-card" onClick = {() => setClickedUser(matchedProfile)} >
                        <div className="img-container">
                             <img src={matchedProfile.Profile_pic} alt={matchedProfile.Name + "profile"}/>
                        </div>

@@ -105,6 +105,25 @@
   padding: 10px;
 }
 
+.user-message{
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(226, 110, 110);
+
+  margin: 5px;
+  text-align: left;
+}
+.message-text{
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+
+  margin: 5px;
+  text-align: right;
+}
+
 .chat-container .option:disabled {
   border-bottom: solid 4px rgb(187, 187, 187);
 }
