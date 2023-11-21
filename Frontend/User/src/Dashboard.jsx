@@ -21,7 +21,7 @@ const Dashboard = () => {
             const response = await axios.get('http://localhost:5001/api/user/getUser', 
             { params: { params: userID } });
             await setUser(response.data);
-            console.log(response.data)
+            // console.log(response.data)
             
           } catch (error) {
             console.error(error);
@@ -32,9 +32,10 @@ const Dashboard = () => {
     const getMatched = async () => {
         try {
             const response = await axios.get('http://localhost:5001/api/user/getMatchedUser', 
-            { params:{userID }} );
+            { params:{userID}} );
             await setGetMatchedUser(response.data);
-            console.log("matched",response.data)
+            // console.log("wow",response.data)
+            
             
           } catch (error) {
             console.error(error);
@@ -47,7 +48,7 @@ const Dashboard = () => {
             const response = await axios.get('http://localhost:5001/api/user/getUserByMode', 
             { params: { userID, show_me, mode_pref } });
             await setModeUser(response.data);
-            console.log(character)
+            // console.log(response .data)
             
             
           } catch (error) {
@@ -57,17 +58,18 @@ const Dashboard = () => {
 
     useEffect(() => {
         getUser()
-
+        getMatched()
     },[])
 
     useEffect(() => {
+        // console.log(user)
         if(user){
-            if(user.show_me && user.mode_pref ){
+            if(user.show_me && user.mode_pref){
+                // console.log(user.show_me,user.mode_pref)
                 getOther(user.mode_pref,user.show_me)
+                
                 }
-            if(user.user_ID ){
-                getMatched()
-            } 
+            
         }
     }, [user]
     )
@@ -114,17 +116,17 @@ const Dashboard = () => {
 
     
     const character = [modeUser]
-   
+    // console.log(getMatchedUser)
 
     return (    
         <div className="dashboard">
          
-            <ChatContainer user={user}/>
+            <ChatContainer  user={user} matches={getMatchedUser ? getMatchedUser : null}/>
              <div className='swipe-container'>
                 <div className='card-container'>
                    
                     {Array.isArray(character[0]) && character[0].map((user) => (
-                            user ?(
+                            user  ?(
                                 user.Name && user.Profile_pic && user.user_ID ?(
                                 <TinderCard
                                     className="swipe"
@@ -141,11 +143,13 @@ const Dashboard = () => {
                                         style={{backgroundImage: "url(" + user.Profile_pic + ")"}}
                                         className="card">
                                         <h3>{user.Name}</h3>
+                                        
                                     </div>
                                 </TinderCard>
                                 ) : null
                             ):null
                             )
+                    
                         )
                     }
                     <div className ="swipe-info"> <p>You swiped {lastDirection}</p></div>

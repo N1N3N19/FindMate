@@ -65,7 +65,7 @@ const checkUser = async (req, res) => {
       //return user id from database table user_profile
       const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [sanitizedEmail]);
       const user = rows[0];
-    
+      console.log(user)
       const token = jwt.sign({ userProfileResult, sanitizedEmail }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
       res.status(201).json({token, userID: user.user_ID, email: sanitizedEmail, message: "User registered and profile created successfully!" });
       
@@ -421,7 +421,7 @@ const loginUser = async(req,res) => {
       //return user id from database table user_profile
       if (rows[0]) {
         res.status(200).json(rows[0]);
-        console.log(rows[0]);
+  
       } else {
         res.status(404).json({ message: 'User not found' });
       }
@@ -432,7 +432,23 @@ const loginUser = async(req,res) => {
   
   }
 
-module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode, getMatchedUser}
+
+  //@desc send message from user to another user
+  //@route POST /api/user/message
+  //@access private
+  const message = async(req,res) => {
+    const {userID, otherID, message} = req.query;
+    try{
+      const [result] = await pool.query('INSERT INTO message(msg_text, receiver_ID, sender_ID) VALUES (?,?,?)', [message,userID,otherID ]);
+      const messages = result[0];
+      const [returnMessage] = await pool.query('SELECT * FROM message WHERE msg_ID = ?', [result.insertId]);
+      res.status(200).json(returnMessage);
+    } catch(error){
+      console.error('Database error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode, getMatchedUser, message  }
 
 
 //@desc current user info

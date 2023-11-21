@@ -2,15 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* * {
+  font-family: 'Readex Pro', sans-serif;
+} */
 
+
+
+.secondary-button:hover {
+  color: rgb(48, 48, 48);
+  border: solid 2px rgb(48, 48, 48);
+}
 /*-------- Global --------*/
 /* @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800&display=swap'); */
-
+.secondary-button {
+  color: rgb(121, 119, 119);
+  background-color: rgb(255, 255, 255);
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: solid 2px rgb(121, 119, 119);
+  margin: 6px;
+}
 
 /*-------- Dashboard  --------*/
 .dashboard {
   display: flex;
   justify-content: space-between;
+  width: 100vw; /* Full width of the viewport */
+
 }
 
 .dashboard .swipe-container {
@@ -64,6 +85,7 @@
   width: 30%;
   text-align: left;
   z-index: 1;
+  
 }
 
 .chat-container .chat-container-header {
@@ -96,11 +118,11 @@
 }
 
 .img-container {
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
   border-radius: 15px;
   overflow: hidden;
-  margin: 10px;
+  margin: 5px;
 }
 
 .img-container img {
