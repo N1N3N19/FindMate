@@ -54,7 +54,7 @@ const Modes = () => {
         if (response.ok) {
             // Handle success
            
-            navigate(`/FinishPF`);
+            navigate(`/Profile`);
         } else {
             // Handle error   
             console.log('dd',dataTosend);

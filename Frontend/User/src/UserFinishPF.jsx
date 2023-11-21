@@ -177,8 +177,9 @@ const UserFinishPF = () => {
           </select>
     </div>
     </div>
-            <button className="w-72 wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>CREATE YOUR PROFILE</b></button>
-          </div>
+    <div className= "flex justify-center items-center"> <button className="w-72 wtext-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit" onClick={handleSubmit}><b>CREATE YOUR PROFILE</b></button> </div>
+  </div>
+  
           <div className="relative my-2 text-center">
             <span>Wolfgang: Triple-N © 2023</span>
           </div>
