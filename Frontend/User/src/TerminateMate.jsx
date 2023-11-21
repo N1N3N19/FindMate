@@ -7,7 +7,7 @@ import defaultAvatar from '../src/assets/avatar.png';
 const TerminateMate = () => {
   return (
     <div className='text-white h-[100vh] flex flex-col justify-center items-center bg-cover' style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
-      <div className="bg-white text-gray-900 border border-amber-400 rounded-lg p-10 w-550px box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200">
+      <div className="bg-white text-gray-900 border border-amber-400 rounded-lg p-8 w-550px box-border shadow-lg backdrop-filter backdrop-blur-lg relative transition-all duration-200" style={{ width: '500px' }}>
         <div className="relative text-center my-4">
           <h className="text-3xl font-bold">Terminate Mate Completed!</h>
         </div>
@@ -34,7 +34,7 @@ const TerminateMate = () => {
           ></textarea>
         </div>
         <button className="w-full text-[18px] mt-4 rounded-full bg-orange-600 text-white hover:ring-1 ring-amber-400 hover:bg-white hover:text-orange-600 py-2 transition-colors duration-300" type="submit"><b>SEND</b></button>
-        <div className="relative my-2 text-center">
+        <div className="relative pt-4 text-center">
                 <Link className="text-neutral-500 hover:text-orange-600" to='/Agreement' ><u>Report issues</u></Link>
         </div>
       </div>
