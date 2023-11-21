@@ -79,6 +79,18 @@ app.get('/feedback', (req, res) => {
   });
 });
 
+app.get('/getmatched', (req, res) => {
+  const query = 'SELECT * FROM matched';
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 app.delete('/users/:user_ID', (req, res) => {
   const query = "DELETE FROM user_profile WHERE user_ID = ?";
   const user_ID = req.params.user_ID;
@@ -88,6 +100,33 @@ app.delete('/users/:user_ID', (req, res) => {
       res.status(500).send({ error: err });
     } else {
       res.send({ message: 'User deleted successfully' });
+    }
+  });
+});
+
+app.delete('/delfeedback/:feedback_ID', (req, res) => {
+  const query = "DELETE FROM feedback WHERE feedback_ID = ?";
+  const feedback_ID = req.params.feedback_ID;
+
+  db.query(query, feedback_ID, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.send({ message: 'Feedback deleted successfully' });
+    }
+  });
+});
+
+
+
+app.get('/getInterests', (req, res) => {
+  const query = 'SELECT * FROM interested';
+
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.send(result);
     }
   });
 });

@@ -5,6 +5,8 @@ import { PieChart } from '@mui/x-charts/PieChart';
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [matched, setMatched] = useState([]);
+
 
   useEffect(() => {
     Axios.get('http://localhost:3003/getusers')
@@ -15,6 +17,16 @@ const Dashboard = () => {
         console.error(`There was an error retrieving the data: ${error}`);
       });
 
+    Axios.get('http://localhost:3003/getmatched')
+      .then((response) => {
+        setMatched(response.data);
+      })
+      .catch((error) => {
+        console.error(`There was an error retrieving the data: ${error}`);
+      });
+
+      
+
     Axios.get('http://localhost:3003/feedback')
       .then((response) => {
         setFeedbacks(response.data);
@@ -22,31 +34,37 @@ const Dashboard = () => {
       .catch((error) => {
         console.error(`There was an error retrieving the data: ${error}`);
       });
-  }, []);
+     }, []);
 
   const pieChartData = [
     { label: 'Users', value: users.length },
     { label: 'Feedbacks', value: feedbacks.length },
+    { label: 'Matched', value: matched.length },
   ];
 
+
   return (
-    <PieChart
-      series={[
-        {
-          data: pieChartData,
-          innerRadius: 30,
-          outerRadius: 100,
-          paddingAngle: 1,
-          cornerRadius: 3,
-          startAngle: -90,
-          endAngle: 180,
-          cx: 150,
-          cy: 150,
-        },
-      ]}
-      width={400}
-      height={300}
-    />
+    <>
+      <PieChart
+        series={[
+          {
+            data: pieChartData,
+            innerRadius: 30,
+            outerRadius: 100,
+            paddingAngle: 1,
+            cornerRadius: 3,
+            startAngle: -90,
+            endAngle: 180,
+            cx: 150,
+            cy: 150,
+          },
+        ]}
+        width={400}
+        height={300}
+      />
+      
+
+    </>
   );
 };
 

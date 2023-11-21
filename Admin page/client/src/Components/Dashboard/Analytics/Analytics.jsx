@@ -1,24 +1,48 @@
-import React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 const Analytics = () => {
+  const [interests, setInterests] = useState([]);
+
+
+  useEffect(() => {
+    Axios.get('http://localhost:3003/getInterests')
+      .then((response) => {
+        setInterests(response.data);
+      })
+      .catch((error) => {
+        console.error(`There was an error retrieving the data: ${error}`);
+      });
+     }, []);
+
+  const pieChartData = [
+    { label: 'Interested', value: interests}
+  ];
+
+
   return (
-    <BarChart
-      xAxis={[
-        {
-          id: 'barCategories',
-          data: ['bar A', 'bar B', 'bar C'],
-          scaleType: 'band',
-        },
-      ]}
-      series={[
-        {
-          data: [2, 5, 3],
-        },
-      ]}
-      width={500}
-      height={300}
-    />
+    <>
+      <PieChart
+        series={[
+          {
+            data: pieChartData,
+            innerRadius: 30,
+            outerRadius: 100,
+            paddingAngle: 1,
+            cornerRadius: 3,
+            startAngle: -90,
+            endAngle: 180,
+            cx: 150,
+            cy: 150,
+          },
+        ]}
+        width={400}
+        height={300}
+      />
+      
+
+    </>
   );
 };
 

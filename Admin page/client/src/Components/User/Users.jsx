@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Axios from 'axios';
+import { FaBan } from "react-icons/fa";
 
 export default function Users() {
   const [rows, setRows] = useState([]);
@@ -27,32 +28,32 @@ export default function Users() {
   };
 
   const columns = [
+   
+    { field: 'user_ID', headerName: 'ID', width: 100 },
+    { field: 'Name', headerName: 'Name', width: 150 },
+    { field: 'Gender', headerName: 'Gender', width: 150 },
+    { field: 'email', headerName: 'Email', width: 250 },
     {
       field: 'delete',
-      headerName: 'Ban User',
+      headerName: '',
       sortable: false,
-      width: 150,
+      width: 50,
       disableClickEventBubbling: true,
       renderCell: (params) => {
         const onClick = () => {
           const idToDelete = params.row.user_ID;
           deleteRow(idToDelete);
         };
-    
-        return <button className='btn' onClick={onClick}>Ban</button>;
+        return <FaBan onClick={onClick}/>
       }
-    },
-    { field: 'user_ID', headerName: 'ID', width: 100 },
-    { field: 'Name', headerName: 'Name', width: 150 },
-    { field: 'Gender', headerName: 'Gender', width: 150 },
-    { field: 'email', headerName: 'Email', width: 250 },
-    { field: 'About_user', headerName: 'About User', width: 1000 }
+    }
+  
     
    
   ];
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: '100%', width: '61%' }}>
       <DataGrid rows={rows} columns={columns} pageSize={10} />
     </div>
   );
