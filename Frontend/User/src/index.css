@@ -65,10 +65,11 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: 'Readex Pro',sans-serif;
+  color: #030712;
+  font-family: Arial, Helvetica, sans-serif;
   /* font bold */
   font-weight: 600;
-  font-size: 30px;
+  font-size: 45px;
 }
 
 .dashboard .swipe-info {

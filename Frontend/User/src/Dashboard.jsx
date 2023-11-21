@@ -5,7 +5,6 @@ import axios from 'axios'
 import { useCookies } from 'react-cookie'
 
 
-
 const Dashboard = () => {
     const [user, setUser] = useState(null)
     const [cookies, setCookies, removeCookies] = useCookies(['user'])
@@ -119,7 +118,7 @@ const Dashboard = () => {
     // console.log(getMatchedUser)
 
     return (    
-        <div className="dashboard">
+        <div className="dashboard bg-cover" style={{ "backgroundImage": "url('../src/assets/bg.jpg')" }}>
          
             <ChatContainer  user={user} matches={getMatchedUser ? getMatchedUser : null}/>
              <div className='swipe-container'>
@@ -142,8 +141,13 @@ const Dashboard = () => {
                                     <div
                                         style={{backgroundImage: "url(" + user.Profile_pic + ")"}}
                                         className="card">
-                                        <h3>{user.Name}</h3>
-                                        
+                                        <div className="flex justify-center items-center bg-white rounded-t-lg box-border" style={{ width: '400px', height: '85px'}}>
+                                            <h3 className="text-black">{user.Name}</h3>
+                                        </div>
+                                        <div className="flex flex-col justify-start py-3 px-2 bg-white top-20 rounded-b-lg" style={{ width: '400px', height: '85px', marginTop: '500px'}}>
+                                            <p className="text-gray-950 text-2xl font-bold pl-4">{user.Age}, {user.Gender}</p>
+                                            <p className="text-lg font-thin text-gray-950 pl-10"><i>"{user.About_user}"</i></p>
+                                        </div>
                                     </div>
                                 </TinderCard>
                                 ) : null
