@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const{about, user, checkUser,registUser,loginUser,mode,otherUser,swipe, interested, getUserByMode} = require("../controllers/userController");
+const{about, user, checkUser,registUser,loginUser,mode,otherUser,swipe, interested, getUserByMode, getMatchedUser} = require("../controllers/userController");
 const validateToken = require("../middleware/validateTokenHandler");
 
 
@@ -8,6 +8,7 @@ const validateToken = require("../middleware/validateTokenHandler");
 router.route("/interested").post(interested);
 router.route("/regis").post(checkUser);
 router.route(`/getUser`).get(user);
+router.route("/getMatchedUser").get(getMatchedUser);
 router.route("/getUserByMode").get(getUserByMode);
 // router.route("/other").get(otherUser);
 router.route("/swipe").post(swipe);

@@ -248,7 +248,9 @@ const swipe = async(req,res) => {
   console.log(req.body);
   const [rows]  = await pool.query('SELECT * FROM swipe WHERE user_a = ? AND user_b = ?', [otherID, userID]);
   const state = rows[0]?.swipe_state;
-  
+  const [alreadyMatched] = await pool.query('SELECT * FROM matched WHERE user_a = ? AND user_b = ?', [otherID, userID]);
+  const matched = alreadyMatched[0];
+  console.log(matched);
   if (state === undefined || state === "left"){
     try {
       const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
@@ -258,15 +260,22 @@ const swipe = async(req,res) => {
       res.status(500).json({ message: 'Server error' });
     }
   } else if (state === "right"){
-    try { 
-      
-      const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
-      const [rows1] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [userID,otherID]);
-      const [rows2] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [otherID,userID]);
-    
-    } catch (error) {
-      console.error('Database error:', error.message);
-      res.status(500).json({ message: 'Server error' });
+      if(matched){
+        res.status(200).json({ message: 'Already matched' });
+      }
+      else{
+        if(swipe_state === "right"){
+          try {
+            const [rows] = await pool.query('INSERT INTO swipe(user_a, user_b, swipe_state) VALUES (?,?,?)', [userID,otherID, swipe_state]);
+            const [rows1] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [userID,otherID]);
+            const [rows2] = await pool.query('INSERT INTO matched(user_a, user_b) VALUES (?,?)', [otherID,userID]);
+            res.status(200).json(rows,rows1,rows2);
+            
+          } catch (error) {
+            console.error('Database error:', error.message);
+            res.status(500).json({ message: 'Server error' });
+          }
+      }
     }
   }
 };
@@ -403,7 +412,27 @@ const loginUser = async(req,res) => {
       }
     }
   }
-module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode}
+
+  const getMatchedUser = async(req,res) =>{
+    const user = req.query;
+    userID = user.userID;
+    try {
+      const [rows] = await pool.query('SELECT user_b, B_Name, B_pic FROM matched_user WHERE user_a = ?', [userID]);
+      //return user id from database table user_profile
+      if (rows[0]) {
+        res.status(200).json(rows[0]);
+        console.log(rows[0]);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  
+  }
+
+module.exports = {checkUser,registUser,loginUser, mode, about, user, otherUser,swipe, interested, getUserByMode, getMatchedUser}
 
 
 //@desc current user info
