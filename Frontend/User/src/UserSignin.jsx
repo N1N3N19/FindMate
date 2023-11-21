@@ -42,7 +42,7 @@ const Signin = () => {
             setCookie('userID', data.userID);
             setCookie('AuthToken', data.token);
             setCookie('email', data.email);
-            navigate('/Dashboard');
+            navigate('/Home');
             
 
         } else {
