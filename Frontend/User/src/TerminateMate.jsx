@@ -39,11 +39,16 @@ const TerminateMate = () => {
 }
 
 useEffect(() => {
-  if (user && reportID) {
-      setPic1(getUser(user));
-      
-      setPic2(getUser(reportID));
-  }
+  const fetchUserPictures = async () => {
+    if (user && reportID) {
+      const userPic1 = await getUser(user);
+      const userPic2 = await getUser(reportID);
+      setPic1(userPic1);
+      setPic2(userPic2);
+    }
+  };
+
+  fetchUserPictures();
 }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,14 +75,14 @@ useEffect(() => {
           <h className="text-3xl font-bold">Terminate Mate Completed!</h>
         </div>
         <div className="flex items-center justify-center my-4">
-          <div className="rounded-full overflow-hidden h-32 mr-2">
-            <img src={"\""+pic1+"\""} alt="User1" className="h-full w-full object-cover" />
+          <div className="rounded-full h-32 w-32 mr-2 overflow-hidden">
+            <img src={pic1} alt="User1" className="h-full w-full object-cover" />
           </div>
           <div className="text-8xl text-orange-600 mr-2">
             <BsLightningFill />
           </div>
-          <div className="rounded-full overflow-hidden h-32">
-            <img src={defaultAvatar} alt="User2" className="h-full w-full object-cover" />
+          <div className="rounded-full h-32 w-32 mr-2 overflow-hidden">
+            <img src={pic2} alt="User2" className="h-full w-full object-cover" />
           </div>
         </div>
         <div className="text-center font-semibold">

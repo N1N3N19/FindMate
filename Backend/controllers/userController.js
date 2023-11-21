@@ -64,7 +64,7 @@ const checkUser = async (req, res) => {
 
       //return user id from database table user_profile
       const [rows] = await pool.query('SELECT * FROM user_profile WHERE email = ?', [sanitizedEmail]);
-      const user = rows[0];
+      const user = rows;
       console.log(user)
       const token = jwt.sign({ userProfileResult, sanitizedEmail }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '15m' });
       res.status(201).json({token, userID: user.user_ID, email: sanitizedEmail, message: "User registered and profile created successfully!" });
