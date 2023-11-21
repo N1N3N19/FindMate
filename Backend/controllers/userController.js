@@ -453,7 +453,7 @@ const loginUser = async(req,res) => {
   const getMessage = async(req,res) => {
     const {userID, otherID} = req.query;
     try{
-      const [returnMessage] = await pool.query('SELECT * FROM message WHERE receiver_ID = ? AND sender_ID = ?', [userID, otherID]);
+      const [returnMessage] = await pool.query('SELECT * FROM message WHERE receiver_ID = ? AND sender_ID = ?', [ otherID,userID]);
       res.status(200).json(returnMessage);
     } catch(error){
       console.error('Database error:', error);
