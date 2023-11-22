@@ -464,8 +464,8 @@ const loginUser = async(req,res) => {
   //@route POST /api/user/terminateMate
   //@access private
   const terminate = async(req,res) => {
-    const {user, reportID, feedback} = req.query;
-    console.log(req.query);
+    const {feedback, user, reportID } = req.body;
+    console.log(req.body);
     try{
       const [result] = await pool.query('DELETE FROM matched WHERE user_a = ? AND user_b = ?', [user,reportID]);
       const [result1] = await pool.query('DELETE FROM matched WHERE user_a = ? AND user_b = ?', [reportID,user]);

@@ -56,12 +56,12 @@ useEffect(() => {
     console.log(dataTosend)
     try{
     const response = await axios.post(`http://localhost:5001/api/user/terminateMate`, 
-    { params: { feedback, user, reportID} });
+    { feedback, user, reportID});
       console.log(response.data)
      
         removeCookies('reportID')
         removeCookies('clickedUser')
-        navigate('/Home')
+        // navigate('/Home')
       
     }
       catch (error) {

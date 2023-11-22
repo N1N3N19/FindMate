@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   user: 'root',
   password: 'root',
   database: 'findmate',
-  port: '3307'
+  port: '3306'
 });
 
 db.connect((err) => {
