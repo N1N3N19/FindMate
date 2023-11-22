@@ -61,7 +61,7 @@ useEffect(() => {
      
         removeCookies('reportID')
         removeCookies('clickedUser')
-        // navigate('/Home')
+        navigate('/Home')
       
     }
       catch (error) {
